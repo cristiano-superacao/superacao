@@ -281,14 +281,31 @@ class SuperacaoApp {
         const urlParams = new URLSearchParams(window.location.search);
         const tabParam = urlParams.get('tab');
         
-        if (tabParam && ['tasks', 'ranking', 'ai-coach', 'profile'].includes(tabParam)) {
+        // Handle URL parameters
+        if (tabParam) {
+            // Validate tab parameter
+            const validTabs = ['tasks', 'ranking', 'ai-coach', 'profile'];
+            const targetTab = validTabs.includes(tabParam) ? tabParam : 'tasks';
+            
             // Small delay to ensure the app is fully initialized
             setTimeout(() => {
-                this.switchTab(tabParam);
-                if (tabParam === 'profile') {
+                this.switchTab(targetTab);
+                
+                // Specific handling for profile tab
+                if (targetTab === 'profile') {
                     this.updateProfileDisplay();
+                    this.loadProfileStats();
+                    this.loadActivityHistory();
                 }
-            }, 100);
+                
+                // Update URL without reloading page
+                const newUrl = `${window.location.pathname}${targetTab !== 'tasks' ? '?tab=' + targetTab : ''}`;
+                window.history.replaceState({ tab: targetTab }, '', newUrl);
+                
+            }, 150);
+        } else {
+            // Default to tasks tab if no parameter
+            this.switchTab('tasks');
         }
     }
 
@@ -536,34 +553,78 @@ class SuperacaoApp {
     }
 
     switchTab(tabName) {
-        // Update tab buttons
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
-        document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+        try {
+            // Validate tab name
+            const validTabs = ['tasks', 'ranking', 'ai-coach', 'profile'];
+            if (!validTabs.includes(tabName)) {
+                console.warn(`Invalid tab name: ${tabName}, defaulting to tasks`);
+                tabName = 'tasks';
+            }
 
-        // Update tab content
-        document.querySelectorAll('.tab-panel').forEach(panel => {
-            panel.classList.remove('active');
-        });
-        document.getElementById(tabName).classList.add('active');
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const targetTabBtn = document.querySelector(`[data-tab="${tabName}"]`);
+            if (targetTabBtn) {
+                targetTabBtn.classList.add('active');
+            }
 
-        this.currentTab = tabName;
+            // Update tab content with smooth transition
+            document.querySelectorAll('.tab-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+            
+            const targetPanel = document.getElementById(tabName);
+            if (targetPanel) {
+                targetPanel.classList.add('active');
+            }
 
-        // Load specific data for tab
-        switch(tabName) {
-            case 'tasks':
-                this.loadTasks();
-                break;
-            case 'ranking':
-                this.loadRanking();
-                break;
-            case 'ai-coach':
-                this.loadAIInsights();
-                break;
-            case 'profile':
-                this.loadAchievements();
-                break;
+            this.currentTab = tabName;
+
+            // Update URL if needed
+            const currentUrl = new URL(window.location);
+            if (tabName === 'tasks') {
+                currentUrl.searchParams.delete('tab');
+            } else {
+                currentUrl.searchParams.set('tab', tabName);
+            }
+            
+            // Update browser history without reloading
+            if (window.location.search !== currentUrl.search) {
+                window.history.pushState({ tab: tabName }, '', currentUrl);
+            }
+
+            // Load specific data for tab
+            switch(tabName) {
+                case 'tasks':
+                    this.loadTasks();
+                    break;
+                case 'ranking':
+                    this.loadRanking();
+                    break;
+                case 'ai-coach':
+                    this.loadAIInsights();
+                    break;
+                case 'profile':
+                    this.updateProfileDisplay();
+                    this.loadAchievements();
+                    this.loadProfileStats();
+                    break;
+            }
+            
+            // Trigger analytics if available
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'tab_switch', {
+                    'tab_name': tabName
+                });
+            }
+            
+        } catch (error) {
+            console.error('Error switching tab:', error);
+            // Fallback to tasks tab
+            this.switchTab('tasks');
         }
     }
 
@@ -908,6 +969,219 @@ class SuperacaoApp {
                 <i class="fas fa-calendar"></i> 
                 Membro desde ${joinDate.toLocaleDateString('pt-BR', options)}
             `;
+        }
+    }
+
+    loadProfileStats() {
+        try {
+            // Calculate streak days
+            const streakDays = this.calculateStreak();
+            const streakElement = document.getElementById('streakDays');
+            if (streakElement) {
+                streakElement.textContent = streakDays;
+            }
+
+            // Calculate completed tasks
+            const completedTasks = this.tasks.filter(task => task.completed).length;
+            const completedElement = document.getElementById('completedTasks');
+            if (completedElement) {
+                completedElement.textContent = completedTasks;
+            }
+
+            // Calculate total focused hours
+            const totalHours = this.calculateTotalHours();
+            const hoursElement = document.getElementById('totalHours');
+            if (hoursElement) {
+                hoursElement.textContent = `${totalHours}h`;
+            }
+
+            // Count achievements
+            const achievements = this.getAchievements();
+            const achievementsElement = document.getElementById('achievementsCount');
+            if (achievementsElement) {
+                achievementsElement.textContent = achievements.length;
+            }
+
+            // Update user level
+            const level = this.calculateUserLevel();
+            const levelElement = document.getElementById('userLevel');
+            if (levelElement) {
+                levelElement.textContent = `Nível ${level.name}`;
+            }
+
+        } catch (error) {
+            console.error('Error loading profile stats:', error);
+        }
+    }
+
+    loadActivityHistory() {
+        try {
+            const historyList = document.getElementById('activityHistoryList');
+            if (!historyList) return;
+
+            const recentActivities = this.getRecentActivities();
+            
+            if (recentActivities.length === 0) {
+                historyList.innerHTML = `
+                    <div class="empty-history">
+                        <i class="fas fa-history"></i>
+                        <p>Nenhuma atividade ainda</p>
+                        <small>Complete algumas tarefas para ver seu histórico aqui</small>
+                    </div>
+                `;
+                return;
+            }
+
+            historyList.innerHTML = recentActivities.map(activity => `
+                <div class="history-item ${activity.type}">
+                    <div class="history-icon">
+                        <i class="${activity.icon}"></i>
+                    </div>
+                    <div class="history-content">
+                        <h4>${activity.title}</h4>
+                        <p>${activity.description}</p>
+                        <span class="history-time">${activity.timeAgo}</span>
+                    </div>
+                    <div class="history-points">
+                        +${activity.points}
+                    </div>
+                </div>
+            `).join('');
+            
+        } catch (error) {
+            console.error('Error loading activity history:', error);
+        }
+    }
+
+    calculateStreak() {
+        try {
+            const completedTasks = this.tasks
+                .filter(task => task.completed)
+                .sort((a, b) => new Date(b.completedAt) - new Date(a.completedAt));
+
+            if (completedTasks.length === 0) return 0;
+
+            let streak = 0;
+            let currentDate = new Date();
+            currentDate.setHours(0, 0, 0, 0);
+
+            for (let i = 0; i < completedTasks.length; i++) {
+                const taskDate = new Date(completedTasks[i].completedAt);
+                taskDate.setHours(0, 0, 0, 0);
+
+                const daysDiff = Math.floor((currentDate - taskDate) / (1000 * 60 * 60 * 24));
+
+                if (daysDiff === streak) {
+                    streak++;
+                    currentDate.setDate(currentDate.getDate() - 1);
+                } else if (daysDiff > streak) {
+                    break;
+                }
+            }
+
+            return streak;
+        } catch (error) {
+            console.error('Error calculating streak:', error);
+            return 0;
+        }
+    }
+
+    calculateTotalHours() {
+        try {
+            const completedTasks = this.tasks.filter(task => task.completed);
+            let totalMinutes = 0;
+
+            completedTasks.forEach(task => {
+                if (task.startTime && task.endTime) {
+                    const start = new Date(`2000-01-01 ${task.startTime}`);
+                    const end = new Date(`2000-01-01 ${task.endTime}`);
+                    const diff = (end - start) / (1000 * 60); // Minutes
+                    totalMinutes += diff;
+                }
+            });
+
+            return Math.round(totalMinutes / 60 * 10) / 10; // Hours with 1 decimal
+        } catch (error) {
+            console.error('Error calculating total hours:', error);
+            return 0;
+        }
+    }
+
+    calculateUserLevel() {
+        const totalPoints = this.currentUser.points || 0;
+        
+        const levels = [
+            { min: 0, max: 99, name: 'Iniciante', color: '#9E9E9E' },
+            { min: 100, max: 299, name: 'Aprendiz', color: '#4CAF50' },
+            { min: 300, max: 599, name: 'Dedicado', color: '#2196F3' },
+            { min: 600, max: 999, name: 'Focado', color: '#FF9800' },
+            { min: 1000, max: 1999, name: 'Expert', color: '#9C27B0' },
+            { min: 2000, max: 4999, name: 'Mestre', color: '#F44336' },
+            { min: 5000, max: Infinity, name: 'Lenda', color: '#FFD700' }
+        ];
+
+        return levels.find(level => totalPoints >= level.min && totalPoints <= level.max) || levels[0];
+    }
+
+    getRecentActivities() {
+        try {
+            const activities = [];
+            
+            // Add completed tasks
+            this.tasks
+                .filter(task => task.completed && task.completedAt)
+                .slice(0, 10)
+                .forEach(task => {
+                    activities.push({
+                        type: 'task',
+                        title: task.title,
+                        description: `Tarefa concluída`,
+                        icon: 'fas fa-check-circle',
+                        points: task.points || 50,
+                        timeAgo: this.getTimeAgo(task.completedAt),
+                        timestamp: new Date(task.completedAt)
+                    });
+                });
+
+            // Add achievements
+            const achievements = this.getAchievements();
+            achievements.slice(0, 5).forEach(achievement => {
+                activities.push({
+                    type: 'achievement',
+                    title: achievement.title,
+                    description: achievement.description,
+                    icon: 'fas fa-trophy',
+                    points: achievement.points,
+                    timeAgo: this.getTimeAgo(achievement.unlockedAt),
+                    timestamp: new Date(achievement.unlockedAt)
+                });
+            });
+
+            // Sort by timestamp and return recent ones
+            return activities
+                .sort((a, b) => b.timestamp - a.timestamp)
+                .slice(0, 10);
+                
+        } catch (error) {
+            console.error('Error getting recent activities:', error);
+            return [];
+        }
+    }
+
+    getTimeAgo(timestamp) {
+        try {
+            const now = new Date();
+            const past = new Date(timestamp);
+            const diffInSeconds = Math.floor((now - past) / 1000);
+
+            if (diffInSeconds < 60) return 'agora';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}min atrás`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h atrás`;
+            if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)}d atrás`;
+            
+            return past.toLocaleDateString('pt-BR');
+        } catch (error) {
+            return 'há pouco tempo';
         }
     }
 

@@ -428,6 +428,51 @@ function trackDownload(platform) {
     }
 }
 
+// Função para tracking de acesso ao painel
+function trackAccess(source) {
+    // Analytics tracking
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'profile_access', {
+            'source': source,
+            'page_location': window.location.href,
+            'timestamp': new Date().toISOString()
+        });
+    }
+    
+    // Facebook Pixel tracking
+    if (typeof fbq !== 'undefined') {
+        fbq('track', 'AccessProfile', {
+            content_name: 'Profile Access',
+            source: source
+        });
+    }
+    
+    // Store access time for analytics
+    try {
+        const accessData = {
+            timestamp: new Date().toISOString(),
+            source: source,
+            userAgent: navigator.userAgent,
+            referrer: document.referrer
+        };
+        
+        // Store in localStorage for later analysis
+        const previousAccess = JSON.parse(localStorage.getItem('profile_access_history') || '[]');
+        previousAccess.push(accessData);
+        
+        // Keep only last 10 accesses
+        if (previousAccess.length > 10) {
+            previousAccess.splice(0, previousAccess.length - 10);
+        }
+        
+        localStorage.setItem('profile_access_history', JSON.stringify(previousAccess));
+    } catch (error) {
+        console.warn('Could not store access data:', error);
+    }
+    
+    console.log(`Profile access tracked: ${source}`);
+}
+
 // Compartilhamento nativo (se suportado)
 function shareApp() {
     if (navigator.share) {

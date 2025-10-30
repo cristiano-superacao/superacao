@@ -104,7 +104,10 @@
             <a href="#recursos">Recursos</a>
             <a href="#ranking">Ranking</a>
             <a href="#ia">Agente IA</a>
-            <a href="./app/?tab=profile" class="btn-login-header">Meu Painel</a>
+            <a href="./app/?tab=profile" class="btn-login-header" onclick="trackAccess('header_profile')" title="Acesse seu perfil e estatísticas">
+                <i class="fas fa-user-circle"></i>
+                <span>Meu Painel</span>
+            </a>
             <a href="./app/" class="btn-cta-header">Usar App</a>
         </nav>
         <button class="menu-toggle" id="menuToggle">
@@ -371,7 +374,10 @@
             </ul>
             <div class="ranking-actions">
                 <a href="./app/?tab=ranking" class="btn-ranking">Ver Ranking Completo</a>
-                <a href="./app/?tab=profile" class="btn-login">Entrar no Meu Painel</a>
+                <a href="./app/?tab=profile" class="btn-login" onclick="trackAccess('ranking_profile')" title="Acesse seu painel de controle pessoal">
+                    <i class="fas fa-user-cog"></i>
+                    <span>Entrar no Meu Painel</span>
+                </a>
             </div>
         </div>
     </section>
