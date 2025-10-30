@@ -167,11 +167,13 @@ class SuperacaoApp {
             this.showGroupInfo();
         }
         
-        // Show profile access
-        this.showProfileAccess();
+        // Profile tab is already available in the main navigation
         
         // Initialize notifications
         this.initNotifications();
+        
+        // Check for URL parameters to open specific tab
+        this.checkUrlParameters();
         
         // Update time every minute
         setInterval(() => this.updateCurrentTime(), 60000);
@@ -201,20 +203,7 @@ class SuperacaoApp {
         }
     }
 
-    showProfileAccess() {
-        // Add profile button to navigation
-        const navigation = document.querySelector('.tab-navigation');
-        if (navigation) {
-            const profileBtn = document.createElement('button');
-            profileBtn.className = 'tab-btn profile-btn';
-            profileBtn.innerHTML = `
-                <i class="fas fa-user"></i>
-                <span>Meu Perfil</span>
-            `;
-            profileBtn.addEventListener('click', () => this.openMyProfile());
-            navigation.appendChild(profileBtn);
-        }
-    }
+
 
     async loadGroupActivities() {
         if (!this.currentGroup) return;
@@ -263,14 +252,43 @@ class SuperacaoApp {
     }
 
     openMyProfile() {
-        // Open profile modal or redirect to profile page
-        alert(`Perfil de ${this.currentUser.name}\nTipo: ${this.userType === 'student' ? 'Aluno' : 'Professor'}\nGrupo: ${this.currentGroup ? this.currentGroup.name : 'Nenhum'}`);
+        // If we're on the landing page, redirect to app with profile tab
+        if (window.location.pathname.includes('index.html') && !window.location.pathname.includes('/app/')) {
+            window.location.href = './app/?tab=profile';
+            return;
+        }
+        
+        // If we're already in the app, switch to profile tab
+        this.switchTab('profile');
+        
+        // Update profile display with latest data
+        this.updateProfileDisplay();
+        
+        // Show notification that profile was opened
+        if (this.showNotification) {
+            this.showNotification('Meu Perfil aberto!', 'success');
+        }
     }
 
     initNotifications() {
         // Initialize notification system if available
         if (typeof initNotificationSystem === 'function') {
             this.notificationSystem = initNotificationSystem();
+        }
+    }
+
+    checkUrlParameters() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+        
+        if (tabParam && ['tasks', 'ranking', 'ai-coach', 'profile'].includes(tabParam)) {
+            // Small delay to ensure the app is fully initialized
+            setTimeout(() => {
+                this.switchTab(tabParam);
+                if (tabParam === 'profile') {
+                    this.updateProfileDisplay();
+                }
+            }, 100);
         }
     }
 
@@ -1036,59 +1054,89 @@ class SuperacaoApp {
 
     // Initialize the app when DOM is loaded
     static initialize() {
-        new SuperacaoApp();
+        return new SuperacaoApp();
     }
 }
 
 // Global functions for modal interactions
 function showAddTaskModal() {
-    window.app.showAddTaskModal();
+    if (window.app && window.app.showAddTaskModal) {
+        window.app.showAddTaskModal();
+    } else {
+        console.error('Aplicação não inicializada ou método showAddTaskModal não disponível');
+    }
 }
 
 function closeAddTaskModal() {
-    window.app.closeAddTaskModal();
+    if (window.app && window.app.closeAddTaskModal) {
+        window.app.closeAddTaskModal();
+    } else {
+        console.error('Aplicação não inicializada ou método closeAddTaskModal não disponível');
+    }
 }
 
 function showTaskDetailModal(taskId) {
-    window.app.showTaskDetailModal(taskId);
+    if (window.app && window.app.showTaskDetailModal) {
+        window.app.showTaskDetailModal(taskId);
+    } else {
+        console.error('Aplicação não inicializada ou método showTaskDetailModal não disponível');
+    }
 }
 
 function closeTaskDetailModal() {
-    window.app.closeTaskDetailModal();
+    if (window.app && window.app.closeTaskDetailModal) {
+        window.app.closeTaskDetailModal();
+    } else {
+        console.error('Aplicação não inicializada ou método closeTaskDetailModal não disponível');
+    }
 }
 
 function completeTask() {
     const modal = document.getElementById('taskDetailModal');
     const taskId = modal.dataset.taskId;
-    if (taskId) {
+    if (taskId && window.app && window.app.completeTaskById) {
         window.app.completeTaskById(taskId);
+    } else if (!window.app) {
+        console.error('Aplicação não inicializada');
     }
 }
 
 function startTask() {
     const modal = document.getElementById('taskDetailModal');
     const taskId = modal.dataset.taskId;
-    if (taskId) {
+    if (taskId && window.app && window.app.startTaskById) {
         window.app.startTaskById(taskId);
+    } else if (!window.app) {
+        console.error('Aplicação não inicializada');
     }
 }
 
 function deleteTask() {
     const modal = document.getElementById('taskDetailModal');
     const taskId = modal.dataset.taskId;
-    if (taskId) {
+    if (taskId && window.app && window.app.deleteTaskById) {
         if (confirm('Tem certeza que deseja excluir esta tarefa?')) {
             window.app.deleteTaskById(taskId);
         }
+    } else if (!window.app) {
+        console.error('Aplicação não inicializada');
     }
 }
 
 function openDemoModal() {
-    window.app.showNotification('Demo em breve! Continue usando o app.', 'warning');
+    if (window.app && window.app.showNotification) {
+        window.app.showNotification('Demo em breve! Continue usando o app.', 'warning');
+    } else {
+        console.error('Aplicação não inicializada ou método showNotification não disponível');
+    }
 }
 
 function openMyProfile() {
-    window.app.openMyProfile();
+    if (window.app && window.app.openMyProfile) {
+        window.app.openMyProfile();
+    } else {
+        console.error('Aplicação não inicializada ou método openMyProfile não disponível');
+    }
 }
 
 function logout() {
@@ -1102,37 +1150,69 @@ function logout() {
 
 // Settings Modal Functions
 function showSettingsModal() {
-    window.app.showSettingsModal();
+    if (window.app && window.app.showSettingsModal) {
+        window.app.showSettingsModal();
+    } else {
+        console.error('App não inicializado ou método não encontrado');
+    }
 }
 
 function closeSettingsModal() {
-    window.app.closeSettingsModal();
+    if (window.app && window.app.closeSettingsModal) {
+        window.app.closeSettingsModal();
+    } else {
+        console.error('Aplicação não inicializada ou método closeSettingsModal não disponível');
+    }
 }
 
 function saveSettings() {
-    window.app.saveSettings();
+    if (window.app && window.app.saveSettings) {
+        window.app.saveSettings();
+    } else {
+        console.error('Aplicação não inicializada ou método saveSettings não disponível');
+    }
 }
 
 // Profile Edit Modal Functions
 function showEditProfileModal() {
-    window.app.showEditProfileModal();
+    if (window.app && window.app.showEditProfileModal) {
+        window.app.showEditProfileModal();
+    } else {
+        console.error('App não inicializado ou método não encontrado');
+    }
 }
 
 function closeEditProfileModal() {
-    window.app.closeEditProfileModal();
+    if (window.app && window.app.closeEditProfileModal) {
+        window.app.closeEditProfileModal();
+    } else {
+        console.error('Aplicação não inicializada ou método closeEditProfileModal não disponível');
+    }
 }
 
 function saveProfileChanges() {
-    window.app.saveProfileChanges();
+    if (window.app && window.app.saveProfileChanges) {
+        window.app.saveProfileChanges();
+    } else {
+        console.error('Aplicação não inicializada ou método saveProfileChanges não disponível');
+    }
 }
 
 // Data Management Functions
 function exportUserData() {
-    window.app.exportUserData();
+    if (window.app && window.app.exportUserData) {
+        window.app.exportUserData();
+    } else {
+        console.error('Aplicação não inicializada ou método exportUserData não disponível');
+    }
 }
 
 function clearAllData() {
-    window.app.clearAllData();
+    if (window.app && window.app.clearAllData) {
+        window.app.clearAllData();
+    } else {
+        console.error('Aplicação não inicializada ou método clearAllData não disponível');
+    }
 }
 
 function showAvatarSelection() {
@@ -1142,5 +1222,16 @@ function showAvatarSelection() {
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    window.app = SuperacaoApp.initialize();
+    try {
+        window.app = SuperacaoApp.initialize();
+        console.log('✅ Superação App inicializado com sucesso!');
+    } catch (error) {
+        console.error('❌ Erro ao inicializar o app:', error);
+        // Fallback initialization
+        try {
+            window.app = new SuperacaoApp();
+        } catch (fallbackError) {
+            console.error('❌ Erro no fallback de inicialização:', fallbackError);
+        }
+    }
 });
