@@ -107,77 +107,15 @@ class TeacherDashboard {
     }
 
     async loadGroups() {
-        // Mock data - replace with actual API call
-        return [
-            {
-                id: 'group_1',
-                name: 'Matemática 9º A',
-                description: 'Turma de Matemática do 9º ano A',
-                code: 'MAT9A1',
-                grade: '9ano',
-                subject: 'Matemática',
-                members: 28,
-                activities: 12,
-                avgCompletion: 78,
-                isPublic: true,
-                createdAt: new Date('2024-10-01').toISOString()
-            },
-            {
-                id: 'group_2',
-                name: 'Física 1º Médio',
-                description: 'Turma de Física do 1º ano do Ensino Médio',
-                code: 'FIS1M2',
-                grade: '1medio',
-                subject: 'Física',
-                members: 32,
-                activities: 8,
-                avgCompletion: 65,
-                isPublic: false,
-                createdAt: new Date('2024-09-15').toISOString()
-            }
-        ];
+        // Load groups from localStorage - no mock data
+        const savedGroups = JSON.parse(localStorage.getItem('teacher_groups') || '[]');
+        return savedGroups;
     }
 
     async loadActivities() {
-        // Mock data - replace with actual API call
-        return [
-            {
-                id: 'activity_1',
-                title: 'Exercícios de Equações do 2º Grau',
-                description: 'Resolva as equações propostas e envie as soluções',
-                groupId: 'group_1',
-                groupName: 'Matemática 9º A',
-                startDate: new Date('2024-10-25T08:00:00').toISOString(),
-                endDate: new Date('2024-10-30T23:59:00').toISOString(),
-                points: 150,
-                difficulty: 'medium',
-                youtubeLink: 'https://youtube.com/watch?v=example1',
-                image: null,
-                tags: ['matemática', 'equações', 'álgebra'],
-                status: 'active',
-                completions: 18,
-                totalStudents: 28,
-                createdAt: new Date('2024-10-20').toISOString()
-            },
-            {
-                id: 'activity_2',
-                title: 'Experimento de Queda Livre',
-                description: 'Realize o experimento e calcule a aceleração da gravidade',
-                groupId: 'group_2',
-                groupName: 'Física 1º Médio',
-                startDate: new Date('2024-10-28T14:00:00').toISOString(),
-                endDate: new Date('2024-11-05T23:59:00').toISOString(),
-                points: 200,
-                difficulty: 'hard',
-                youtubeLink: 'https://youtube.com/watch?v=example2',
-                image: null,
-                tags: ['física', 'movimento', 'experimento'],
-                status: 'active',
-                completions: 12,
-                totalStudents: 32,
-                createdAt: new Date('2024-10-22').toISOString()
-            }
-        ];
+        // Load activities from localStorage - no mock data
+        const savedActivities = JSON.parse(localStorage.getItem('teacher_activities') || '[]');
+        return savedActivities;
     }
 
     updateDashboardStats() {
