@@ -1,26 +1,41 @@
-# Superação - Site Landing Page
+# Superação - Plataforma Educacional Completa
 
-Este é o site de landing page para o aplicativo Superação, um app de produtividade com IA que ajuda você a superar seus limites.
+Este projeto contém o site landing page e a aplicação web PWA do Superação, uma plataforma educacional com gamificação e IA que conecta professores e alunos.
 
 ## Estrutura do Projeto
 
 ```text
 superacao-site/
-├── index.html          # Página principal
-├── styles.css          # Estilos CSS
-├── script.js           # JavaScript para interatividade
-├── app-mockup.png      # Imagem do mockup (ADICIONAR)
-└── README.md           # Este arquivo
+├── index.html              # Landing page principal
+├── styles.css              # Estilos da landing page
+├── script.js               # JavaScript da landing page (simplificado)
+├── app/                    # Aplicação web PWA
+│   ├── index.html          # Dashboard do aluno
+│   ├── login.html          # Sistema de autenticação
+│   ├── teacher-dashboard.html # Dashboard do professor
+│   ├── css/                # Estilos da aplicação
+│   └── js/                 # JavaScript da aplicação
+├── manifest.json           # Configuração PWA
+├── sw.js                   # Service Worker
+└── README.md               # Este arquivo
 ```
 
-## Recursos do Site
+## Recursos Implementados
 
-- ✅ Design responsivo (mobile-first)
-- ✅ Menu hambúrguer para dispositivos móveis
-- ✅ Seções bem organizadas (Hero, Recursos, Ranking/IA, Footer)
-- ✅ Ícones Font Awesome
-- ✅ Animações e transições suaves
-- ✅ Cores e branding consistentes
+### Landing Page
+- ✅ Design responsivo e moderno
+- ✅ Interface simplificada (carrossel removido)
+- ✅ Sistema "Meu Painel" funcionando corretamente
+- ✅ Seções otimizadas (Hero, Recursos, Testimonials, Footer)
+- ✅ PWA ready com Service Worker
+
+### Aplicação Web
+- ✅ Sistema de autenticação dual (Aluno/Professor)
+- ✅ Dashboard diferenciado por tipo de usuário
+- ✅ Sistema de tarefas e atividades
+- ✅ Ranking e gamificação
+- ✅ Sistema de notificações
+- ✅ Integração professor-aluno via códigos de grupo
 
 ## Para Executar
 
