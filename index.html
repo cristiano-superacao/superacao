@@ -113,39 +113,89 @@
     </header>
 
     <section class="hero-section" id="download">
-        <div class="hero-content">
-            <h1>Supere Seus Limites com a Força da IA</h1>
-            <p>O Superação transforma suas tarefas em um jogo. Quebre barreiras, alcance objetivos e supere a si mesmo!</p>
-            <div class="cta-buttons">
-                <button class="btn-primary" onclick="openDownloadModal(); trackDownload('Modal_Open');">
-                    <i class="fas fa-download"></i> Baixar Grátis
-                </button>
-                <button class="btn-primary btn-demo" onclick="openDemoModal();">
-                    <i class="fas fa-play"></i> Ver Demo
-                </button>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-icon">🚀</span>
+                    <span class="badge-text">Plataforma Educacional com IA</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    Supere Seus Limites com 
+                    <span class="highlight">a Força da IA</span>
+                </h1>
+                
+                <p class="hero-description">
+                    O Superação transforma suas tarefas em um jogo interativo. 
+                    Quebre barreiras, alcance objetivos e supere a si mesmo com 
+                    inteligência artificial personalizada!
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">4.8/5</span>
+                        <span class="stat-label">⭐ Avaliação</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2.5k+</span>
+                        <span class="stat-label">👥 Usuários</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">25MB</span>
+                        <span class="stat-label">📱 Tamanho</span>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <button class="btn-primary btn-main" onclick="openDownloadModal(); trackDownload('Modal_Open');">
+                        <i class="fas fa-download"></i>
+                        <span>Baixar Grátis</span>
+                        <small>Para Android e iOS</small>
+                    </button>
+                    <button class="btn-secondary btn-demo" onclick="openDemoModal();">
+                        <i class="fas fa-play"></i>
+                        Ver Demo
+                    </button>
+                </div>
+                
+                <div class="quick-access">
+                    <span class="quick-label">Ou acesse diretamente:</span>
+                    <div class="quick-links">
+                        <a href="./app/" class="quick-link web" onclick="trackDownload('Direct_WebApp')" target="_blank" rel="noopener">
+                            <i class="fas fa-globe"></i>
+                            <span>Versão Web</span>
+                        </a>
+                        <a href="./app/?tab=profile" class="quick-link panel" onclick="trackDownload('Direct_Panel')">
+                            <i class="fas fa-user-circle"></i>
+                            <span>Meu Painel</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="compatibility-info">
+                    <p class="compatibility">
+                        <i class="fas fa-shield-alt"></i>
+                        Login seguro com Google • Compatível Android 7.0+ e iOS 12.0+
+                    </p>
+                </div>
             </div>
-            <div class="quick-download">
-                <a href="./app/" 
-                   class="quick-link android" 
-                   onclick="trackDownload('Direct_WebApp')" 
-                   target="_blank" rel="noopener">
-                    <i class="fas fa-mobile-alt"></i>
-                </a>
-                <a href="./app/" 
-                   class="quick-link ios" 
-                   onclick="trackDownload('Direct_Install')" 
-                   target="_blank" rel="noopener">
-                    <i class="fas fa-download"></i>
-                </a>
+            
+            <div class="hero-visual">
+                <div class="hero-graphic">
+                    <div class="graphic-circle primary"></div>
+                    <div class="graphic-circle secondary"></div>
+                    <div class="graphic-circle accent"></div>
+                    <div class="hero-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <div class="floating-elements">
+                        <div class="float-item" style="--delay: 0s;">📚</div>
+                        <div class="float-item" style="--delay: 1s;">🎯</div>
+                        <div class="float-item" style="--delay: 2s;">⚡</div>
+                        <div class="float-item" style="--delay: 0.5s;">🏆</div>
+                    </div>
+                </div>
             </div>
-            <div class="download-info">
-                <p class="app-size">📱 Tamanho: 25MB | ⭐ 4.8/5 (2.5k avaliações)</p>
-                <p class="compatibility">📍 Compatível com Android 7.0+ e iOS 12.0+</p>
-            </div>
-            <p class="login-info">Login simples e seguro com sua Conta Google.</p>
-        </div>
-        <div class="hero-image">
-            <!-- Carrossel removido - interface simplificada -->
         </div>
     </section>
 
