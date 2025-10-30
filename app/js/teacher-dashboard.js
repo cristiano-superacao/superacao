@@ -643,8 +643,16 @@ function viewGroup(groupId) {
 }
 
 function editGroup(groupId) {
-    console.log('Edit group:', groupId);
-    // Implement group editing
+    const group = teacherDashboard.groups.find(g => g.id === groupId);
+    if (!group) return;
+
+    const newName = prompt('Novo nome do grupo:', group.name);
+    if (newName && newName.trim()) {
+        group.name = newName.trim();
+        teacherDashboard.saveData();
+        teacherDashboard.loadGroups();
+        teacherDashboard.showNotification('Grupo atualizado com sucesso!', 'success');
+    }
 }
 
 function shareGroup(groupId) {
@@ -656,9 +664,15 @@ function shareGroup(groupId) {
 }
 
 function deleteGroup(groupId) {
-    if (confirm('Tem certeza que deseja excluir este grupo?')) {
-        // Implement group deletion
-        console.log('Delete group:', groupId);
+    if (confirm('Tem certeza que deseja excluir este grupo? Esta ação não pode ser desfeita.')) {
+        const groupIndex = teacherDashboard.groups.findIndex(g => g.id === groupId);
+        if (groupIndex !== -1) {
+            const groupName = teacherDashboard.groups[groupIndex].name;
+            teacherDashboard.groups.splice(groupIndex, 1);
+            teacherDashboard.saveData();
+            teacherDashboard.loadGroups();
+            teacherDashboard.showNotification(`Grupo "${groupName}" excluído com sucesso!`, 'success');
+        }
     }
 }
 
@@ -673,14 +687,33 @@ function editActivity(activityId) {
 }
 
 function duplicateActivity(activityId) {
-    console.log('Duplicate activity:', activityId);
-    // Implement activity duplication
+    const activity = teacherDashboard.activities.find(a => a.id === activityId);
+    if (!activity) return;
+
+    const duplicatedActivity = {
+        ...activity,
+        id: Date.now().toString(),
+        title: `${activity.title} (Cópia)`,
+        createdAt: new Date().toISOString(),
+        status: 'draft'
+    };
+
+    teacherDashboard.activities.push(duplicatedActivity);
+    teacherDashboard.saveData();
+    teacherDashboard.loadActivities();
+    teacherDashboard.showNotification('Atividade duplicada com sucesso!', 'success');
 }
 
 function deleteActivity(activityId) {
-    if (confirm('Tem certeza que deseja excluir esta atividade?')) {
-        // Implement activity deletion
-        console.log('Delete activity:', activityId);
+    if (confirm('Tem certeza que deseja excluir esta atividade? Esta ação não pode ser desfeita.')) {
+        const activityIndex = teacherDashboard.activities.findIndex(a => a.id === activityId);
+        if (activityIndex !== -1) {
+            const activityTitle = teacherDashboard.activities[activityIndex].title;
+            teacherDashboard.activities.splice(activityIndex, 1);
+            teacherDashboard.saveData();
+            teacherDashboard.loadActivities();
+            teacherDashboard.showNotification(`Atividade "${activityTitle}" excluída com sucesso!`, 'success');
+        }
     }
 }
 
@@ -695,8 +728,143 @@ function showNotifications() {
 }
 
 function showSettings() {
-    console.log('Show settings');
-    // Implement settings panel
+    const html = `
+        <div class="modal-overlay" id="teacherSettingsModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>⚙️ Configurações do Professor</h3>
+                    <button class="close-modal" onclick="closeTeacherSettingsModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h4><i class="fas fa-user"></i> Perfil</h4>
+                        <div class="form-group">
+                            <label>Nome</label>
+                            <input type="text" id="teacherName" value="${localStorage.getItem('superacao_user') || ''}">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="teacherEmail" placeholder="professor@escola.com">
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h4><i class="fas fa-bell"></i> Notificações</h4>
+                        <div class="setting-item toggle-item">
+                            <label>
+                                <span>Notificar novas atividades dos estudantes</span>
+                                <input type="checkbox" id="notifyNewActivities" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-item toggle-item">
+                            <label>
+                                <span>Relatórios semanais automáticos</span>
+                                <input type="checkbox" id="weeklyReports" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h4><i class="fas fa-graduation-cap"></i> Ensino</h4>
+                        <div class="form-group">
+                            <label>Disciplina Principal</label>
+                            <select id="mainSubject">
+                                <option value="">Selecionar...</option>
+                                <option value="matematica">Matemática</option>
+                                <option value="portugues">Português</option>
+                                <option value="ciencias">Ciências</option>
+                                <option value="historia">História</option>
+                                <option value="geografia">Geografia</option>
+                                <option value="ingles">Inglês</option>
+                                <option value="educacao-fisica">Educação Física</option>
+                                <option value="artes">Artes</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                        <div class="setting-item toggle-item">
+                            <label>
+                                <span>Permitir estudantes criarem atividades</span>
+                                <input type="checkbox" id="allowStudentActivities">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h4><i class="fas fa-shield-alt"></i> Privacidade & Dados</h4>
+                        <div class="setting-item">
+                            <button class="btn-secondary btn-full" onclick="exportTeacherData()">
+                                <i class="fas fa-download"></i> Exportar meus dados
+                            </button>
+                        </div>
+                        <div class="setting-item">
+                            <button class="btn-danger btn-full" onclick="clearTeacherData()">
+                                <i class="fas fa-trash"></i> Limpar todos os dados
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" onclick="closeTeacherSettingsModal()">Cancelar</button>
+                    <button class="btn-primary" onclick="saveTeacherSettings()">Salvar Configurações</button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.insertAdjacentHTML('beforeend', html);
+}
+
+function closeTeacherSettingsModal() {
+    const modal = document.getElementById('teacherSettingsModal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function saveTeacherSettings() {
+    const settings = {
+        name: document.getElementById('teacherName').value,
+        email: document.getElementById('teacherEmail').value,
+        mainSubject: document.getElementById('mainSubject').value,
+        notifyNewActivities: document.getElementById('notifyNewActivities').checked,
+        weeklyReports: document.getElementById('weeklyReports').checked,
+        allowStudentActivities: document.getElementById('allowStudentActivities').checked
+    };
+    
+    localStorage.setItem('superacao_teacher_settings', JSON.stringify(settings));
+    localStorage.setItem('superacao_user', settings.name);
+    
+    closeTeacherSettingsModal();
+    teacherDashboard.showNotification('Configurações salvas com sucesso!', 'success');
+}
+
+function exportTeacherData() {
+    exportReports(); // Use existing export function
+}
+
+function clearTeacherData() {
+    if (confirm('⚠️ ATENÇÃO: Esta ação irá apagar TODOS os seus dados (grupos, atividades, configurações). Esta ação não pode ser desfeita. Tem certeza?')) {
+        const keysToRemove = [
+            'superacao_teacher_groups',
+            'superacao_teacher_activities', 
+            'superacao_teacher_settings',
+            'superacao_user',
+            'superacao_user_type'
+        ];
+        
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+        
+        teacherDashboard.showNotification('Todos os dados foram apagados', 'success');
+        
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 2000);
+    }
 }
 
 function logout() {
@@ -708,13 +876,140 @@ function logout() {
 }
 
 function showInviteStudents() {
-    console.log('Show invite students');
-    // Implement student invitation
+    if (teacherDashboard.groups.length === 0) {
+        teacherDashboard.showNotification('Crie um grupo primeiro para convidar estudantes', 'warning');
+        return;
+    }
+
+    const groupOptions = teacherDashboard.groups.map(group => 
+        `<option value="${group.id}">${group.name} (${group.code})</option>`
+    ).join('');
+
+    const html = `
+        <div class="modal-overlay" id="inviteStudentsModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>👥 Convidar Estudantes</h3>
+                    <button class="close-modal" onclick="closeInviteModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Selecionar Grupo</label>
+                        <select id="inviteGroupSelect">
+                            ${groupOptions}
+                        </select>
+                    </div>
+                    <div class="invite-methods">
+                        <div class="invite-method">
+                            <h4><i class="fas fa-qrcode"></i> Código do Grupo</h4>
+                            <div class="group-code-display">
+                                <span id="displayGroupCode">${teacherDashboard.groups[0]?.code}</span>
+                                <button onclick="copyGroupCode()" class="btn-secondary">
+                                    <i class="fas fa-copy"></i> Copiar
+                                </button>
+                            </div>
+                            <p class="help-text">Compartilhe este código com os estudantes</p>
+                        </div>
+                        <div class="invite-method">
+                            <h4><i class="fas fa-link"></i> Link de Convite</h4>
+                            <div class="invite-link-display">
+                                <span id="displayInviteLink"></span>
+                                <button onclick="copyInviteLink()" class="btn-secondary">
+                                    <i class="fas fa-copy"></i> Copiar Link
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary" onclick="closeInviteModal()">Fechar</button>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', html);
+    
+    // Update group code when selection changes
+    document.getElementById('inviteGroupSelect').addEventListener('change', updateInviteInfo);
+    updateInviteInfo();
+}
+
+function updateInviteInfo() {
+    const groupSelect = document.getElementById('inviteGroupSelect');
+    const selectedGroup = teacherDashboard.groups.find(g => g.id === groupSelect.value);
+    
+    if (selectedGroup) {
+        document.getElementById('displayGroupCode').textContent = selectedGroup.code;
+        const baseUrl = window.location.origin + window.location.pathname.replace('teacher-dashboard.html', '');
+        const inviteLink = `${baseUrl}login.html?join=group&code=${selectedGroup.code}`;
+        document.getElementById('displayInviteLink').textContent = inviteLink;
+    }
+}
+
+function copyGroupCode() {
+    const groupCode = document.getElementById('displayGroupCode').textContent;
+    navigator.clipboard.writeText(groupCode).then(() => {
+        teacherDashboard.showNotification('Código copiado!', 'success');
+    });
+}
+
+function copyInviteLink() {
+    const inviteLink = document.getElementById('displayInviteLink').textContent;
+    navigator.clipboard.writeText(inviteLink).then(() => {
+        teacherDashboard.showNotification('Link copiado!', 'success');
+    });
+}
+
+function closeInviteModal() {
+    const modal = document.getElementById('inviteStudentsModal');
+    if (modal) {
+        modal.remove();
+    }
 }
 
 function exportReports() {
-    console.log('Export reports');
-    // Implement report export
+    try {
+        const reportData = {
+            teacher: {
+                name: localStorage.getItem('superacao_user') || 'Professor',
+                exportDate: new Date().toISOString()
+            },
+            groups: teacherDashboard.groups.map(group => ({
+                ...group,
+                studentsCount: group.students?.length || 0
+            })),
+            activities: teacherDashboard.activities,
+            analytics: {
+                totalGroups: teacherDashboard.groups.length,
+                totalActivities: teacherDashboard.activities.length,
+                totalStudents: teacherDashboard.groups.reduce((total, group) => 
+                    total + (group.students?.length || 0), 0
+                ),
+                activitiesThisMonth: teacherDashboard.activities.filter(activity => {
+                    const activityDate = new Date(activity.createdAt);
+                    const thisMonth = new Date();
+                    return activityDate.getMonth() === thisMonth.getMonth() && 
+                           activityDate.getFullYear() === thisMonth.getFullYear();
+                }).length
+            }
+        };
+
+        const dataStr = JSON.stringify(reportData, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(dataBlob);
+        link.download = `superacao-relatorio-professor-${new Date().toISOString().split('T')[0]}.json`;
+        link.click();
+        
+        teacherDashboard.showNotification('Relatório exportado com sucesso!', 'success');
+    } catch (error) {
+        console.error('Erro ao exportar relatório:', error);
+        teacherDashboard.showNotification('Erro ao exportar relatório', 'error');
+    }
 }
 
 function exportAnalytics() {

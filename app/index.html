@@ -217,17 +217,32 @@
                 <div id="profile" class="tab-panel">
                     <div class="section-header">
                         <h2>Meu Perfil</h2>
-                        <button class="settings-btn">
-                            <i class="fas fa-cog"></i>
-                        </button>
+                        <div class="profile-actions">
+                            <button class="settings-btn" onclick="showEditProfileModal()" title="Editar perfil">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="settings-btn" onclick="showSettingsModal()" title="Configurações">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
                     </div>
                     
                     <div class="profile-info">
-                        <div class="profile-avatar">
+                        <div class="profile-avatar" id="profileAvatar">
                             <i class="fas fa-user-circle"></i>
                         </div>
                         <h3 id="userName">Usuário</h3>
                         <p id="userLevel">Nível Iniciante</p>
+                        <p class="user-bio" id="userBio">Definir biografia nas configurações</p>
+                        <div class="user-goal" id="userGoal">
+                            <i class="fas fa-target"></i>
+                            <span>Definir meta principal</span>
+                        </div>
+                        <div class="profile-badges">
+                            <span class="badge joined-badge" id="joinedDate">
+                                <i class="fas fa-calendar"></i> Membro desde hoje
+                            </span>
+                        </div>
                     </div>
                     
                     <div class="stats-grid">
@@ -253,6 +268,25 @@
                         </div>
                     </div>
                     
+                    <div class="progress-overview">
+                        <h3>Progresso Semanal</h3>
+                        <div class="week-progress">
+                            <canvas id="weekProgressChart" width="300" height="150"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="activity-history">
+                        <h3>Histórico de Atividades</h3>
+                        <div class="history-filter">
+                            <button class="filter-btn active" data-period="week">Esta semana</button>
+                            <button class="filter-btn" data-period="month">Este mês</button>
+                            <button class="filter-btn" data-period="all">Tudo</button>
+                        </div>
+                        <div id="activityHistoryList" class="history-list">
+                            <!-- Activity history will be loaded here -->
+                        </div>
+                    </div>
+
                     <div class="achievements">
                         <h3>Suas Conquistas</h3>
                         <div id="achievementsList" class="achievements-list">
@@ -262,6 +296,189 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal-content settings-modal">
+            <div class="modal-header">
+                <h3>⚙️ Configurações</h3>
+                <button class="close-modal" onclick="closeSettingsModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h4><i class="fas fa-user"></i> Perfil</h4>
+                    <div class="setting-item">
+                        <label for="userName">Nome de exibição</label>
+                        <input type="text" id="settingsUserName" placeholder="Seu nome">
+                    </div>
+                    <div class="setting-item">
+                        <label for="userBio">Biografia</label>
+                        <textarea id="settingsUserBio" placeholder="Conte um pouco sobre você..." rows="3"></textarea>
+                    </div>
+                    <div class="setting-item">
+                        <label for="userAvatar">Avatar</label>
+                        <div class="avatar-selection">
+                            <div class="avatar-option active" data-avatar="fas fa-user-circle">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="avatar-option" data-avatar="fas fa-user-ninja">
+                                <i class="fas fa-user-ninja"></i>
+                            </div>
+                            <div class="avatar-option" data-avatar="fas fa-user-astronaut">
+                                <i class="fas fa-user-astronaut"></i>
+                            </div>
+                            <div class="avatar-option" data-avatar="fas fa-user-graduate">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="avatar-option" data-avatar="fas fa-user-tie">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div class="avatar-option" data-avatar="fas fa-cat">
+                                <i class="fas fa-cat"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4><i class="fas fa-bell"></i> Notificações</h4>
+                    <div class="setting-item toggle-item">
+                        <label>
+                            <span>Notificações push</span>
+                            <input type="checkbox" id="pushNotifications" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item toggle-item">
+                        <label>
+                            <span>Sons de notificação</span>
+                            <input type="checkbox" id="soundEffects" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item toggle-item">
+                        <label>
+                            <span>Lembretes de tarefas</span>
+                            <input type="checkbox" id="taskReminders" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4><i class="fas fa-palette"></i> Aparência</h4>
+                    <div class="setting-item">
+                        <label for="themeSelect">Tema</label>
+                        <select id="themeSelect">
+                            <option value="light">☀️ Claro</option>
+                            <option value="dark">🌙 Escuro</option>
+                            <option value="auto">🤖 Automático</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="colorScheme">Esquema de cores</label>
+                        <div class="color-options">
+                            <div class="color-option active" data-color="green" style="background: #4CAF50;"></div>
+                            <div class="color-option" data-color="blue" style="background: #2196F3;"></div>
+                            <div class="color-option" data-color="purple" style="background: #9C27B0;"></div>
+                            <div class="color-option" data-color="orange" style="background: #FF9800;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4><i class="fas fa-globe"></i> Geral</h4>
+                    <div class="setting-item">
+                        <label for="languageSelect">Idioma</label>
+                        <select id="languageSelect">
+                            <option value="pt-BR">🇧🇷 Português (Brasil)</option>
+                            <option value="en-US">🇺🇸 English (US)</option>
+                            <option value="es-ES">🇪🇸 Español</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="weekStartSelect">Início da semana</label>
+                        <select id="weekStartSelect">
+                            <option value="sunday">Domingo</option>
+                            <option value="monday" selected>Segunda-feira</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4><i class="fas fa-shield-alt"></i> Dados & Privacidade</h4>
+                    <div class="setting-item toggle-item">
+                        <label>
+                            <span>Backup automático</span>
+                            <input type="checkbox" id="autoBackup" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <button class="btn-secondary btn-full" onclick="exportUserData()">
+                            <i class="fas fa-download"></i> Exportar meus dados
+                        </button>
+                    </div>
+                    <div class="setting-item">
+                        <button class="btn-danger btn-full" onclick="clearAllData()">
+                            <i class="fas fa-trash"></i> Limpar todos os dados
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeSettingsModal()">Cancelar</button>
+                <button class="btn-primary" onclick="saveSettings()">Salvar Configurações</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal -->
+    <div id="editProfileModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✏️ Editar Perfil</h3>
+                <button class="close-modal" onclick="closeEditProfileModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="profile-edit-avatar">
+                    <div class="current-avatar" id="editProfileAvatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <button class="change-avatar-btn" onclick="showAvatarSelection()">
+                        <i class="fas fa-camera"></i> Alterar
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editProfileName">Nome</label>
+                    <input type="text" id="editProfileName" placeholder="Seu nome">
+                </div>
+                
+                <div class="form-group">
+                    <label for="editProfileBio">Biografia</label>
+                    <textarea id="editProfileBio" placeholder="Conte um pouco sobre você..." rows="4"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="editProfileGoal">Meta principal</label>
+                    <input type="text" id="editProfileGoal" placeholder="Ex: Estudar 2h por dia">
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeEditProfileModal()">Cancelar</button>
+                <button class="btn-primary" onclick="saveProfileChanges()">Salvar Alterações</button>
+            </div>
+        </div>
     </div>
 
     <!-- Add Task Modal -->
