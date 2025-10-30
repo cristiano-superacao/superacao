@@ -1,0 +1,98 @@
+[build]
+  # Diretório de publicação (onde estão os arquivos finais)
+  publish = "."
+  
+  # Comando de build (se necessário)
+  command = "echo 'Build completed - Static site ready'"
+
+[build.environment]
+  # Variáveis de ambiente
+  NODE_VERSION = "18"
+
+# Configurações de redirecionamento
+[[redirects]]
+  # Redirecionar /app para /app/index.html para SPA
+  from = "/app"
+  to = "/app/index.html"
+  status = 200
+
+[[redirects]]
+  # Redirecionar /app/* para /app/index.html para roteamento SPA
+  from = "/app/*"
+  to = "/app/index.html"
+  status = 200
+
+[[redirects]]
+  # Redirecionar raiz para página principal
+  from = "/"
+  to = "/index.html"
+  status = 200
+
+# Headers de segurança e performance
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Segurança
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    
+    # Cache para recursos estáticos
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/app/manifest.json"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/app/sw.js"
+  [headers.values]
+    Content-Type = "application/javascript"
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/*.svg"
+  [headers.values]
+    Content-Type = "image/svg+xml"
+    Cache-Control = "public, max-age=31536000"
+
+# Configurações PWA
+[[headers]]
+  for = "/app/*"
+  [headers.values]
+    # Headers PWA
+    X-Robots-Tag = "index, follow"
+    
+# Configurações de formulários (se necessário no futuro)
+[build.processing]
+  skip_processing = false
+
+[build.processing.css]
+  bundle = true
+  minify = true
+
+[build.processing.js]
+  bundle = false
+  minify = true
+
+[build.processing.html]
+  pretty_urls = true
+
+# Configurações de deploy
+[context.production]
+  command = "echo 'Production build completed'"
+
+[context.deploy-preview]
+  command = "echo 'Deploy preview build completed'"
+
+[context.branch-deploy]
+  command = "echo 'Branch deploy build completed'"

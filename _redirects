@@ -1,0 +1,23 @@
+# Redirecionamentos para Netlify
+
+# Redirecionar /app para /app/index.html (SPA)
+/app /app/index.html 200
+
+# Redirecionar todas as rotas /app/* para /app/index.html (SPA routing)
+/app/* /app/index.html 200
+
+# Redirecionar raiz para página principal
+/ /index.html 200
+
+# Redirecionamentos para compatibilidade
+/aplicativo /app/ 302
+/mobile /app/ 302
+/pwa /app/ 302
+
+# Headers de segurança para arquivos específicos
+/app/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Service-Worker-Allowed: /app/
+
+# Fallback para páginas não encontradas
+/* /index.html 404

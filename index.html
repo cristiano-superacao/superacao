@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superação | Seu App de Produtividade com IA</title>
+    <meta name="description" content="🚀 Supere seus limites com o poder da IA! O Superação transforma suas tarefas em um jogo viciante. Baixe grátis e quebre suas barreiras pessoais hoje mesmo!">
+    <meta name="keywords" content="superação, produtividade, motivação, gamificação, IA, inteligência artificial, tarefas, hábitos, ranking, aplicativo, limites, metas, objetivos, app gratis">
+    <meta name="author" content="Superação App">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="pt-BR">
+    <meta name="geo.region" content="BR">
+    <meta name="geo.placename" content="Brasil">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="msapplication-TileColor" content="#4CAF50">
+    <meta name="application-name" content="Superação">
+    <link rel="canonical" href="https://cristiano-superacao.github.io/superacao/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cristiano-superacao.github.io/superacao/">
+    <meta property="og:title" content="🚀 Superação | App Gratuito de Produtividade com IA">
+    <meta property="og:description" content="Transforme sua vida! Supere limites, quebre barreiras e alcance seus objetivos com gamificação e IA. Download grátis para Android e iOS!">
+    <meta property="og:image" content="https://cristiano-superacao.github.io/superacao/app-mockup.svg">
+    <meta property="og:image:width" content="300">
+    <meta property="og:image:height" content="600">
+    <meta property="og:image:alt" content="App Superação - Interface do aplicativo mostrando tarefas, ranking e coach IA">
+    <meta property="og:site_name" content="Superação App">
+    <meta property="og:locale" content="pt_BR">
+    <meta property="fb:app_id" content="your-fb-app-id">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@superacao_app">
+    <meta name="twitter:creator" content="@cristiano_superacao">
+    <meta name="twitter:url" content="https://cristiano-superacao.github.io/superacao/">
+    <meta name="twitter:title" content="🚀 Superação | App Gratuito de Produtividade com IA">
+    <meta name="twitter:description" content="Transforme sua vida! Supere limites com gamificação e IA. Download grátis para Android e iOS! 📱⭐">
+    <meta name="twitter:image" content="https://cristiano-superacao.github.io/superacao/app-mockup.svg">
+    <meta name="twitter:image:alt" content="App Superação - Seu coach pessoal com IA para superar limites">
+    
+    <!-- Favicon e Icons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Preload crítico -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style">
+    
+    <!-- DNS Prefetch -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="//www.google-analytics.com">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'Superação App Landing Page',
+            send_page_view: true
+        });
+        
+        // Track download clicks
+        function trackDownload(platform) {
+            gtag('event', 'app_download_click', {
+                'platform': platform,
+                'page_location': window.location.href
+            });
+        }
+    </script>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MobileApplication",
+      "name": "Superação",
+      "description": "App de produtividade com IA que ajuda você a superar limites e alcançar objetivos",
+      "applicationCategory": "Productivity",
+      "operatingSystem": "Android, iOS",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "BRL"
+      }
+    }
+    </script>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Superação</div>
+        <nav class="nav-menu" id="navMenu">
+            <a href="#recursos">Recursos</a>
+            <a href="#ranking">Ranking</a>
+            <a href="#ia">Agente IA</a>
+            <a href="./app/?tab=profile" class="btn-login-header">Meu Painel</a>
+            <a href="./app/" class="btn-cta-header">Usar App</a>
+        </nav>
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </header>
+
+    <section class="hero-section" id="download">
+        <div class="hero-content">
+            <h1>Supere Seus Limites com a Força da IA</h1>
+            <p>O Superação transforma suas tarefas em um jogo. Quebre barreiras, alcance objetivos e supere a si mesmo!</p>
+            <div class="cta-buttons">
+                <button class="btn-primary" onclick="openDownloadModal(); trackDownload('Modal_Open');">
+                    <i class="fas fa-download"></i> Baixar Grátis
+                </button>
+                <button class="btn-primary btn-demo" onclick="openDemoModal();">
+                    <i class="fas fa-play"></i> Ver Demo
+                </button>
+            </div>
+            <div class="quick-download">
+                <a href="./app/" 
+                   class="quick-link android" 
+                   onclick="trackDownload('Direct_WebApp')" 
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-mobile-alt"></i>
+                </a>
+                <a href="./app/" 
+                   class="quick-link ios" 
+                   onclick="trackDownload('Direct_Install')" 
+                   target="_blank" rel="noopener">
+                    <i class="fas fa-download"></i>
+                </a>
+            </div>
+            <div class="download-info">
+                <p class="app-size">📱 Tamanho: 25MB | ⭐ 4.8/5 (2.5k avaliações)</p>
+                <p class="compatibility">📍 Compatível com Android 7.0+ e iOS 12.0+</p>
+            </div>
+            <p class="login-info">Login simples e seguro com sua Conta Google.</p>
+        </div>
+        <div class="hero-image">
+            <div class="groups-carousel-container">
+                <h3>Grupos Ativos na Plataforma</h3>
+                <div class="groups-carousel" id="groupsCarousel">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Groups will be populated here -->
+                    </div>
+                    <button class="carousel-btn prev" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn next" id="nextBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="carousel-indicators" id="carouselIndicators">
+                    <!-- Indicators will be populated here -->
+                </div>
+                <div class="groups-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalGroups">0</span>
+                        <span class="stat-label">Grupos Ativos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalStudents">0</span>
+                        <span class="stat-label">Estudantes</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalActivities">0</span>
+                        <span class="stat-label">Atividades</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section" id="recursos">
+        <h2>Seu Planejamento, Simplificado</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-list-check"></i>
+                <h3>Gestão de Tarefas</h3>
+                <p>Cadastre qualquer tarefa: ler, assistir aula, meditar, correr X km. Tudo com horário de início e fim.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-trophy"></i>
+                <h3>Pontuação e Recompensa</h3>
+                <p>Concluiu 100%? Ganhe pontos! Gamifique seu dia a dia e sinta a motivação subir.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-clock"></i>
+                <h3>Lembretes Inteligentes</h3>
+                <p>Receba alertas no momento exato do início e fim de cada atividade. Nunca mais perca o foco.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section">
+        <h2>O Que Nossos Usuários Dizem</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"O Superação mudou minha vida! Superei minha preguiça e consegui manter consistência nos exercícios por 3 meses seguidos."</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="author-info">
+                        <h4>Marina Silva</h4>
+                        <span>Estudante de Medicina</span>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"A IA do app é incrível! Me dá dicas personalizadas e me motiva quando estou perdendo o foco. Já subi 15 posições no ranking!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="author-info">
+                        <h4>Carlos Eduardo</h4>
+                        <span>Desenvolvedor</span>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-content">
+                    <p>"Finalmente consegui organizar minha rotina de estudos e exercícios. Os lembretes são perfeitos e a gamificação me vicia!"</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="author-info">
+                        <h4>Ana Beatriz</h4>
+                        <span>Concurseira</span>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits-section">
+        <h2>Por Que Escolher o Superação?</h2>
+        <div class="benefits-grid">
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Aumente sua Produtividade</h3>
+                <p>Organize suas tarefas de forma inteligente e veja sua produtividade crescer exponencialmente.</p>
+            </div>
+            
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <h3>Supere Seus Limites</h3>
+                <p>Sistema de pontuação e ranking que desafia você a quebrar barreiras e alcançar novos patamares.</p>
+            </div>
+            
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h3>Crie Consistência</h3>
+                <p>Desenvolva hábitos duradouros com lembretes inteligentes e análise de desempenho por IA.</p>
+            </div>
+            
+            <div class="benefit-item">
+                <div class="benefit-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>Insights Personalizados</h3>
+                <p>IA analisa seus padrões e oferece sugestões específicas para otimizar sua rotina.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="ranking-ia-section">
+        <div class="ia-panel" id="ia">
+            <h2>Agente IA: Seu Coach Pessoal</h2>
+            <p>Um agente de inteligência artificial avalia seu desempenho, consistência e pontualidade, oferecendo feedback personalizado para otimizar sua rotina.</p>
+            <div class="ia-features">
+                <div class="ia-feature">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Análise de Consistência</span>
+                </div>
+                <div class="ia-feature">
+                    <i class="fas fa-clock"></i>
+                    <span>Controle de Pontualidade</span>
+                </div>
+                <div class="ia-feature">
+                    <i class="fas fa-balance-scale"></i>
+                    <span>Balanceamento de Atividades</span>
+                </div>
+            </div>
+            <i class="fas fa-robot ia-icon"></i>
+        </div>
+        <div class="ranking-panel" id="ranking">
+            <h2>Top 10 Usuários (Hall da Fama)</h2>
+            <ul class="ranking-list">
+                <li><span class="rank-pos gold">#1</span> ProdutivoGPT <span class="rank-score">9.870 pts</span></li>
+                <li><span class="rank-pos silver">#2</span> FocoTotal <span class="rank-score">9.520 pts</span></li>
+                <li><span class="rank-pos bronze">#3</span> MaratonaDiária <span class="rank-score">8.990 pts</span></li>
+                <li><span class="rank-pos">#4</span> HábitosMaster <span class="rank-score">8.750 pts</span></li>
+                <li><span class="rank-pos">#5</span> ConsistênciaPro <span class="rank-score">8.420 pts</span></li>
+                <li><span class="rank-pos">#6</span> MetasCumpridas <span class="rank-score">8.150 pts</span></li>
+                <li><span class="rank-pos">#7</span> FocoTotal2024 <span class="rank-score">7.980 pts</span></li>
+                <li><span class="rank-pos">#8</span> RotinaProdutiva <span class="rank-score">7.650 pts</span></li>
+                <li><span class="rank-pos">#9</span> ObjetivosClaros <span class="rank-score">7.320 pts</span></li>
+                <li><span class="rank-pos">#10</span> MotivadorPro <span class="rank-score">7.100 pts</span></li>
+            </ul>
+            <div class="ranking-actions">
+                <a href="./app/?tab=ranking" class="btn-ranking">Ver Ranking Completo</a>
+                <a href="./app/?tab=profile" class="btn-login">Entrar no Meu Painel</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 Superação. Todos os direitos reservados.</p>
+        <div class="footer-links">
+            <a href="#">Termos de Uso</a>
+            <a href="#">Política de Privacidade</a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+    </footer>
+
+    <!-- Modal de Download -->
+    <div id="downloadModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeDownloadModal()">&times;</span>
+            <div class="modal-header">
+                <h2>📱 Baixar Superação</h2>
+                <p>Escolha sua plataforma preferida:</p>
+            </div>
+            <div class="modal-body">
+                <div class="download-options">
+                    <a href="./app/" 
+                       class="download-option android" 
+                       onclick="trackDownload('WebApp')" 
+                       target="_blank" rel="noopener">
+                        <div class="platform-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="platform-info">
+                            <h3>Usar Agora</h3>
+                            <p>App Web (Todos os dispositivos)</p>
+                            <span class="download-size">Instantâneo</span>
+                        </div>
+                    </a>
+                    
+                    <a href="./app/" 
+                       class="download-option ios" 
+                       onclick="trackDownload('Install')" 
+                       target="_blank" rel="noopener">
+                        <div class="platform-icon">
+                            <i class="fas fa-download"></i>
+                        </div>
+                        <div class="platform-info">
+                            <h3>Instalar App</h3>
+                            <p>PWA - Funciona offline</p>
+                            <span class="download-size">5MB</span>
+                        </div>
+                    </a>
+                </div>
+                
+                <div class="modal-footer">
+                    <div class="app-rating">
+                        <span class="stars">⭐⭐⭐⭐⭐</span>
+                        <span>4.8 (2.5k avaliações)</span>
+                    </div>
+                    <p class="modal-note">📱 App gratuito com funcionalidades premium opcionais</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Smart App Banner (iOS) -->
+    <meta name="apple-itunes-app" content="app-id=123456789, app-argument=superacao://launch">
+    
+    <script src="script.js"></script>
+    
+    <!-- Hotjar Analytics (opcional) -->
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:3481234,hjsv:6}; // Substitua pelo seu ID
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+</body>
+</html>

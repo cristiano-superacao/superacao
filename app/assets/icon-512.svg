@@ -1,0 +1,34 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="256" fill="#4CAF50"/>
+  
+  <!-- Mountain peak (representing "superação" - overcoming) -->
+  <path d="M80 370 L256 130 L432 370 Z" fill="#2E7D32" stroke="#ffffff" stroke-width="8"/>
+  
+  <!-- Flag on peak -->
+  <rect x="250" y="130" width="12" height="80" fill="#ffffff"/>
+  <path d="M262 130 L262 180 L350 165 L262 150 Z" fill="#FFC107"/>
+  
+  <!-- Mountain layers for depth -->
+  <path d="M80 370 L180 240 L290 370 Z" fill="#388E3C" opacity="0.8"/>
+  <path d="M220 370 L320 210 L432 370 Z" fill="#388E3C" opacity="0.8"/>
+  
+  <!-- Progress steps -->
+  <circle cx="130" cy="320" r="20" fill="#ffffff" opacity="0.9"/>
+  <circle cx="210" cy="270" r="20" fill="#ffffff" opacity="0.9"/>
+  <circle cx="290" cy="210" r="20" fill="#ffffff" opacity="0.9"/>
+  <circle cx="370" cy="320" r="20" fill="#ffffff" opacity="0.9"/>
+  
+  <!-- Connecting lines -->
+  <path d="M130 320 L210 270 L290 210" stroke="#ffffff" stroke-width="8" fill="none" opacity="0.7"/>
+  <path d="M290 210 L370 320" stroke="#ffffff" stroke-width="8" fill="none" opacity="0.7"/>
+  
+  <!-- Achievement stars -->
+  <g fill="#FFC107" opacity="0.8">
+    <path d="M150 180 L155 195 L170 195 L158 205 L163 220 L150 210 L137 220 L142 205 L130 195 L145 195 Z"/>
+    <path d="M360 180 L365 195 L380 195 L368 205 L373 220 L360 210 L347 220 L352 205 L340 195 L355 195 Z"/>
+  </g>
+  
+  <!-- App name (stylized) -->
+  <text x="256" y="460" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="42" font-weight="bold">SUPERAÇÃO</text>
+</svg>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superação - Dashboard do Professor</title>
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/teacher-dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="app-logo">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <h1>Dashboard Professor</h1>
+            </div>
+            <div class="loading-spinner"></div>
+            <p>Carregando painel...</p>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="teacherApp" class="teacher-app" style="display: none;">
+        <!-- Header -->
+        <header class="teacher-header">
+            <div class="header-left">
+                <div class="app-logo">
+                    <i class="fas fa-mountain"></i>
+                    <h1>Superação</h1>
+                </div>
+                <span class="header-subtitle">Dashboard do Professor</span>
+            </div>
+            
+            <div class="header-right">
+                <div class="teacher-info">
+                    <div class="teacher-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="teacher-details">
+                        <h3 id="teacherName">Prof. Maria Santos</h3>
+                        <p id="teacherSubject">Matemática</p>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="notification-btn" onclick="showNotifications()">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    
+                    <button class="settings-btn" onclick="showSettings()">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="teacher-nav">
+            <button class="nav-btn active" data-section="overview">
+                <i class="fas fa-chart-pie"></i>
+                <span>Visão Geral</span>
+            </button>
+            
+            <button class="nav-btn" data-section="groups">
+                <i class="fas fa-users"></i>
+                <span>Grupos</span>
+                <span class="nav-count" id="groupsCount">0</span>
+            </button>
+            
+            <button class="nav-btn" data-section="activities">
+                <i class="fas fa-tasks"></i>
+                <span>Atividades</span>
+                <span class="nav-count" id="activitiesCount">0</span>
+            </button>
+            
+            <button class="nav-btn" data-section="ranking">
+                <i class="fas fa-trophy"></i>
+                <span>Rankings</span>
+            </button>
+            
+            <button class="nav-btn" data-section="analytics">
+                <i class="fas fa-chart-bar"></i>
+                <span>Relatórios</span>
+            </button>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="teacher-main">
+            <!-- Overview Section -->
+            <section id="overview" class="teacher-section active">
+                <div class="section-header">
+                    <h2>Visão Geral</h2>
+                    <div class="header-stats">
+                        <div class="stat-card">
+                            <i class="fas fa-users"></i>
+                            <div class="stat-info">
+                                <span class="stat-number" id="totalStudents">0</span>
+                                <span class="stat-label">Alunos</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <i class="fas fa-tasks"></i>
+                            <div class="stat-info">
+                                <span class="stat-number" id="totalActivities">0</span>
+                                <span class="stat-label">Atividades</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <i class="fas fa-chart-line"></i>
+                            <div class="stat-info">
+                                <span class="stat-number" id="avgCompletion">0%</span>
+                                <span class="stat-label">Conclusão Média</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-grid">
+                    <!-- Quick Actions -->
+                    <div class="overview-card">
+                        <h3>Ações Rápidas</h3>
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" onclick="showCreateGroupModal()">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Criar Grupo</span>
+                            </button>
+                            
+                            <button class="quick-action-btn" onclick="showCreateActivityModal()">
+                                <i class="fas fa-plus"></i>
+                                <span>Nova Atividade</span>
+                            </button>
+                            
+                            <button class="quick-action-btn" onclick="showInviteStudents()">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Convidar Alunos</span>
+                            </button>
+                            
+                            <button class="quick-action-btn" onclick="exportReports()">
+                                <i class="fas fa-download"></i>
+                                <span>Exportar Relatório</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Recent Groups -->
+                    <div class="overview-card">
+                        <div class="card-header">
+                            <h3>Grupos Recentes</h3>
+                            <a href="#" onclick="switchSection('groups')">Ver todos</a>
+                        </div>
+                        <div id="recentGroups" class="recent-list">
+                            <!-- Will be populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Recent Activities -->
+                    <div class="overview-card">
+                        <div class="card-header">
+                            <h3>Atividades Recentes</h3>
+                            <a href="#" onclick="switchSection('activities')">Ver todas</a>
+                        </div>
+                        <div id="recentActivities" class="recent-list">
+                            <!-- Will be populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Performance Chart -->
+                    <div class="overview-card chart-card">
+                        <h3>Desempenho da Semana</h3>
+                        <div class="chart-container">
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Groups Section -->
+            <section id="groups" class="teacher-section">
+                <div class="section-header">
+                    <h2>Meus Grupos</h2>
+                    <button class="btn-primary" onclick="showCreateGroupModal()">
+                        <i class="fas fa-plus"></i>
+                        Criar Grupo
+                    </button>
+                </div>
+
+                <div class="groups-container">
+                    <div id="groupsList" class="groups-grid">
+                        <!-- Groups will be populated here -->
+                    </div>
+                    
+                    <div class="empty-state" id="groupsEmptyState">
+                        <i class="fas fa-users"></i>
+                        <h3>Nenhum grupo criado</h3>
+                        <p>Crie seu primeiro grupo para começar a gerenciar atividades dos alunos</p>
+                        <button class="btn-primary" onclick="showCreateGroupModal()">
+                            <i class="fas fa-plus"></i>
+                            Criar Primeiro Grupo
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activities Section -->
+            <section id="activities" class="teacher-section">
+                <div class="section-header">
+                    <h2>Atividades</h2>
+                    <div class="section-actions">
+                        <select id="activityFilter" class="filter-select">
+                            <option value="all">Todas as atividades</option>
+                            <option value="active">Ativas</option>
+                            <option value="completed">Concluídas</option>
+                            <option value="draft">Rascunhos</option>
+                        </select>
+                        
+                        <button class="btn-primary" onclick="showCreateActivityModal()">
+                            <i class="fas fa-plus"></i>
+                            Nova Atividade
+                        </button>
+                    </div>
+                </div>
+
+                <div class="activities-container">
+                    <div id="activitiesList" class="activities-grid">
+                        <!-- Activities will be populated here -->
+                    </div>
+                    
+                    <div class="empty-state" id="activitiesEmptyState">
+                        <i class="fas fa-tasks"></i>
+                        <h3>Nenhuma atividade criada</h3>
+                        <p>Crie atividades para engajar seus alunos com gamificação</p>
+                        <button class="btn-primary" onclick="showCreateActivityModal()">
+                            <i class="fas fa-plus"></i>
+                            Criar Primeira Atividade
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ranking Section -->
+            <section id="ranking" class="teacher-section">
+                <div class="section-header">
+                    <h2>Rankings dos Grupos</h2>
+                    <select id="rankingGroupFilter" class="filter-select">
+                        <option value="">Selecione um grupo</option>
+                    </select>
+                </div>
+
+                <div class="ranking-container">
+                    <div id="rankingContent" class="ranking-content">
+                        <!-- Ranking will be populated here -->
+                    </div>
+                    
+                    <div class="empty-state" id="rankingEmptyState">
+                        <i class="fas fa-trophy"></i>
+                        <h3>Selecione um grupo</h3>
+                        <p>Escolha um grupo para visualizar o ranking dos alunos</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="teacher-section">
+                <div class="section-header">
+                    <h2>Relatórios e Análises</h2>
+                    <div class="section-actions">
+                        <select id="analyticsTimeRange" class="filter-select">
+                            <option value="7days">Últimos 7 dias</option>
+                            <option value="30days">Últimos 30 dias</option>
+                            <option value="90days">Últimos 3 meses</option>
+                        </select>
+                        
+                        <button class="btn-secondary" onclick="exportAnalytics()">
+                            <i class="fas fa-download"></i>
+                            Exportar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Engagement dos Alunos</h3>
+                        <canvas id="engagementChart"></canvas>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3>Atividades Mais Populares</h3>
+                        <canvas id="popularActivitiesChart"></canvas>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3>Progresso por Grupo</h3>
+                        <canvas id="groupProgressChart"></canvas>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3>Horários de Maior Atividade</h3>
+                        <canvas id="activityTimeChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Create Group Modal -->
+    <div id="createGroupModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Criar Novo Grupo</h3>
+                <button class="close-btn" onclick="closeCreateGroupModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="createGroupForm" class="form">
+                <div class="form-group">
+                    <label for="groupName">Nome do Grupo</label>
+                    <input type="text" id="groupName" placeholder="Ex: Matemática 9º A" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="groupDescription">Descrição</label>
+                    <textarea id="groupDescription" placeholder="Descreva o grupo e seus objetivos..."></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="groupGrade">Série/Ano</label>
+                        <select id="groupGrade" required>
+                            <option value="">Selecione</option>
+                            <option value="6ano">6º Ano</option>
+                            <option value="7ano">7º Ano</option>
+                            <option value="8ano">8º Ano</option>
+                            <option value="9ano">9º Ano</option>
+                            <option value="1medio">1º Médio</option>
+                            <option value="2medio">2º Médio</option>
+                            <option value="3medio">3º Médio</option>
+                            <option value="superior">Superior</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="groupSubject">Disciplina</label>
+                        <input type="text" id="groupSubject" placeholder="Ex: Matemática" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="groupPublic">
+                        Grupo público (aparecer em pesquisas)
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeCreateGroupModal()">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Criar Grupo
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Create Activity Modal -->
+    <div id="createActivityModal" class="modal large-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Criar Nova Atividade</h3>
+                <button class="close-btn" onclick="closeCreateActivityModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <form id="createActivityForm" class="form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="activityTitle">Título da Atividade</label>
+                        <input type="text" id="activityTitle" placeholder="Ex: Exercícios de Equações" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="activityGroup">Grupo</label>
+                        <select id="activityGroup" required>
+                            <option value="">Selecione um grupo</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activityDescription">Descrição</label>
+                    <textarea id="activityDescription" placeholder="Descreva a atividade, objetivos e instruções..."></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="activityStartDate">Data de Início</label>
+                        <input type="datetime-local" id="activityStartDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="activityEndDate">Data de Término</label>
+                        <input type="datetime-local" id="activityEndDate" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="activityPoints">Pontos por Conclusão</label>
+                        <input type="number" id="activityPoints" value="100" min="10" max="1000" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="activityDifficulty">Dificuldade</label>
+                        <select id="activityDifficulty" required>
+                            <option value="easy">Fácil</option>
+                            <option value="medium">Médio</option>
+                            <option value="hard">Difícil</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activityYoutubeLink">Link do YouTube (opcional)</label>
+                    <input type="url" id="activityYoutubeLink" placeholder="https://youtube.com/watch?v=...">
+                    <small>Cole um link do YouTube para material de apoio</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activityImage">Imagem da Atividade</label>
+                    <div class="file-upload">
+                        <input type="file" id="activityImage" accept="image/*">
+                        <div class="file-upload-display">
+                            <i class="fas fa-image"></i>
+                            <span>Clique para selecionar uma imagem</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activityTags">Tags (opcional)</label>
+                    <input type="text" id="activityTags" placeholder="matemática, equações, álgebra">
+                    <small>Separe as tags com vírgulas</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="closeCreateActivityModal()">
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn-outline" onclick="saveActivityDraft()">
+                        <i class="fas fa-save"></i>
+                        Salvar Rascunho
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-rocket"></i>
+                        Publicar Atividade
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/teacher-dashboard.js"></script>
+    <script src="js/teacher-groups.js"></script>
+    <script src="js/teacher-activities.js"></script>
+    <script src="js/teacher-analytics.js"></script>
+</body>
+</html>

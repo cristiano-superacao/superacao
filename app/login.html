@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superação - Login</title>
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="login-container">
+        <!-- Header -->
+        <header class="login-header">
+            <div class="app-logo">
+                <i class="fas fa-mountain"></i>
+                <h1>Superação</h1>
+            </div>
+            <p class="app-tagline">Supere seus limites com o poder da IA</p>
+        </header>
+
+        <!-- Login Content -->
+        <div class="login-content">
+            <!-- Profile Selection -->
+            <div id="profileSelection" class="profile-selection active">
+                <h2>Como você quer acessar?</h2>
+                <p>Escolha seu tipo de perfil para continuar</p>
+                
+                <div class="profile-options">
+                    <button class="profile-option" onclick="selectProfile('student')">
+                        <div class="profile-icon">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <h3>Sou Aluno</h3>
+                        <p>Quero acessar atividades e acompanhar meu progresso</p>
+                    </button>
+                    
+                    <button class="profile-option" onclick="selectProfile('teacher')">
+                        <div class="profile-icon">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <h3>Sou Professor</h3>
+                        <p>Quero criar grupos e gerenciar atividades dos alunos</p>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Student Login -->
+            <div id="studentLogin" class="auth-form">
+                <div class="form-header">
+                    <button class="back-btn" onclick="showProfileSelection()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2>Login do Aluno</h2>
+                    <p>Entre para acessar suas atividades</p>
+                </div>
+
+                <form id="studentLoginForm" class="login-form">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <input type="email" id="studentEmail" placeholder="Seu e-mail" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="studentPassword" placeholder="Sua senha" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('studentPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberStudent">
+                            <span class="checkmark"></span>
+                            Lembrar de mim
+                        </label>
+                        <a href="#" class="forgot-link">Esqueci minha senha</a>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-login">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Entrar
+                    </button>
+
+                    <div class="divider">
+                        <span>ou</span>
+                    </div>
+
+                    <button type="button" class="btn-google" onclick="loginWithGoogle('student')">
+                        <i class="fab fa-google"></i>
+                        Entrar com Google
+                    </button>
+
+                    <div class="form-footer">
+                        <p>Não tem uma conta? <a href="#" onclick="showStudentRegister()">Cadastre-se</a></p>
+                        <p>Tem um código de grupo? <a href="#" onclick="showGroupJoin()">Entrar no grupo</a></p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Teacher Login -->
+            <div id="teacherLogin" class="auth-form">
+                <div class="form-header">
+                    <button class="back-btn" onclick="showProfileSelection()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2>Login do Professor</h2>
+                    <p>Acesse seu painel de controle</p>
+                </div>
+
+                <form id="teacherLoginForm" class="login-form">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <input type="email" id="teacherEmail" placeholder="Seu e-mail institucional" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="teacherPassword" placeholder="Sua senha" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('teacherPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="rememberTeacher">
+                            <span class="checkmark"></span>
+                            Lembrar de mim
+                        </label>
+                        <a href="#" class="forgot-link">Esqueci minha senha</a>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-login">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        Entrar no Painel
+                    </button>
+
+                    <div class="divider">
+                        <span>ou</span>
+                    </div>
+
+                    <button type="button" class="btn-google" onclick="loginWithGoogle('teacher')">
+                        <i class="fab fa-google"></i>
+                        Entrar com Google
+                    </button>
+
+                    <div class="form-footer">
+                        <p>Novo por aqui? <a href="#" onclick="showTeacherRegister()">Criar conta de professor</a></p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Student Register -->
+            <div id="studentRegister" class="auth-form">
+                <div class="form-header">
+                    <button class="back-btn" onclick="showStudentLogin()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2>Cadastro do Aluno</h2>
+                    <p>Crie sua conta para começar</p>
+                </div>
+
+                <form id="studentRegisterForm" class="login-form">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <input type="text" id="studentName" placeholder="Seu nome completo" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <input type="email" id="studentRegisterEmail" placeholder="Seu e-mail" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="studentRegisterPassword" placeholder="Crie uma senha" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('studentRegisterPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <select id="studentGrade" required>
+                            <option value="">Selecione sua série/ano</option>
+                            <option value="6ano">6º Ano</option>
+                            <option value="7ano">7º Ano</option>
+                            <option value="8ano">8º Ano</option>
+                            <option value="9ano">9º Ano</option>
+                            <option value="1medio">1º Médio</option>
+                            <option value="2medio">2º Médio</option>
+                            <option value="3medio">3º Médio</option>
+                            <option value="superior">Ensino Superior</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTermsStudent" required>
+                            <span class="checkmark"></span>
+                            Aceito os <a href="#" target="_blank">termos de uso</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-login">
+                        <i class="fas fa-user-plus"></i>
+                        Criar Conta
+                    </button>
+
+                    <div class="form-footer">
+                        <p>Já tem uma conta? <a href="#" onclick="showStudentLogin()">Fazer login</a></p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Teacher Register -->
+            <div id="teacherRegister" class="auth-form">
+                <div class="form-header">
+                    <button class="back-btn" onclick="showTeacherLogin()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2>Cadastro do Professor</h2>
+                    <p>Crie sua conta docente</p>
+                </div>
+
+                <form id="teacherRegisterForm" class="login-form">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <input type="text" id="teacherName" placeholder="Seu nome completo" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <input type="email" id="teacherRegisterEmail" placeholder="E-mail institucional" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-school"></i>
+                        </div>
+                        <input type="text" id="teacherInstitution" placeholder="Sua instituição de ensino" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <input type="text" id="teacherSubject" placeholder="Disciplina que leciona" required>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="teacherRegisterPassword" placeholder="Crie uma senha" required>
+                        <button type="button" class="password-toggle" onclick="togglePassword('teacherRegisterPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="agreeTermsTeacher" required>
+                            <span class="checkmark"></span>
+                            Aceito os <a href="#" target="_blank">termos de uso</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-login">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        Criar Conta de Professor
+                    </button>
+
+                    <div class="form-footer">
+                        <p>Já tem uma conta? <a href="#" onclick="showTeacherLogin()">Fazer login</a></p>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Group Join -->
+            <div id="groupJoin" class="auth-form">
+                <div class="form-header">
+                    <button class="back-btn" onclick="showStudentLogin()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h2>Entrar no Grupo</h2>
+                    <p>Digite o código do grupo fornecido pelo professor</p>
+                </div>
+
+                <form id="groupJoinForm" class="login-form">
+                    <div class="input-group">
+                        <div class="input-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <input type="text" id="groupCode" placeholder="Código do grupo (ex: ABC123)" required maxlength="6">
+                    </div>
+
+                    <div class="group-info" id="groupInfo" style="display: none;">
+                        <div class="group-preview">
+                            <h4 id="groupName">Nome do Grupo</h4>
+                            <p id="groupDescription">Descrição do grupo</p>
+                            <div class="group-stats">
+                                <span><i class="fas fa-users"></i> <span id="groupMembers">0</span> membros</span>
+                                <span><i class="fas fa-tasks"></i> <span id="groupTasks">0</span> atividades</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-login">
+                        <i class="fas fa-user-plus"></i>
+                        Entrar no Grupo
+                    </button>
+
+                    <div class="form-footer">
+                        <p>Não tem o código? <a href="#" onclick="showStudentLogin()">Fazer login normal</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Loading -->
+        <div id="loginLoading" class="loading-overlay" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Entrando...</p>
+        </div>
+    </div>
+
+    <script src="js/login.js"></script>
+</body>
+</html>
