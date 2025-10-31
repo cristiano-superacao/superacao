@@ -102,9 +102,15 @@
                 <div id="tasks" class="tab-panel active">
                     <div class="section-header">
                         <h2>Suas Metas de Hoje</h2>
-                        <button class="add-btn" id="addTaskBtn">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                        <div class="header-buttons">
+                            <button class="gps-btn" onclick="showGpsTrackerModal()" title="GPS Tracker - Atividades Físicas">
+                                <i class="fas fa-location-dot"></i>
+                                <span>GPS</span>
+                            </button>
+                            <button class="add-btn" id="addTaskBtn">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
                     </div>
                     
                     <div class="tasks-container">
@@ -440,43 +446,327 @@
 
     <!-- Edit Profile Modal -->
     <div id="editProfileModal" class="modal-overlay">
-        <div class="modal-content">
+        <div class="modal-content profile-modal">
             <div class="modal-header">
-                <h3>✏️ Editar Perfil</h3>
+                <div class="header-title">
+                    <i class="fas fa-user-edit"></i>
+                    <h3>Editar Perfil</h3>
+                </div>
                 <button class="close-modal" onclick="closeEditProfileModal()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             
             <div class="modal-body">
-                <div class="profile-edit-avatar">
-                    <div class="current-avatar" id="editProfileAvatar">
-                        <i class="fas fa-user-circle"></i>
+                <!-- Avatar Section -->
+                <div class="profile-edit-section">
+                    <div class="section-header">
+                        <i class="fas fa-image"></i>
+                        <span>Foto do Perfil</span>
                     </div>
-                    <button class="change-avatar-btn" onclick="showAvatarSelection()">
-                        <i class="fas fa-camera"></i> Alterar
-                    </button>
+                    <div class="profile-edit-avatar">
+                        <div class="current-avatar" id="editProfileAvatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <button class="change-avatar-btn" onclick="showAvatarSelection()">
+                            <i class="fas fa-camera"></i>
+                            <span>Alterar Foto</span>
+                        </button>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="editProfileName">Nome</label>
-                    <input type="text" id="editProfileName" placeholder="Seu nome">
+                <!-- Personal Info Section -->
+                <div class="profile-edit-section">
+                    <div class="section-header">
+                        <i class="fas fa-id-card"></i>
+                        <span>Informações Pessoais</span>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editProfileName">
+                                <i class="fas fa-user"></i>
+                                Nome Completo
+                            </label>
+                            <input type="text" id="editProfileName" placeholder="Digite seu nome completo" maxlength="50">
+                            <div class="input-helper">Será exibido no seu perfil público</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="editProfileEmail">
+                                <i class="fas fa-envelope"></i>
+                                E-mail
+                            </label>
+                            <input type="email" id="editProfileEmail" placeholder="seu@email.com" maxlength="100">
+                            <div class="input-helper">Para notificações e recuperação de conta</div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="editProfileBio">Biografia</label>
-                    <textarea id="editProfileBio" placeholder="Conte um pouco sobre você..." rows="4"></textarea>
+                <!-- About Section -->
+                <div class="profile-edit-section">
+                    <div class="section-header">
+                        <i class="fas fa-quote-left"></i>
+                        <span>Sobre Você</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editProfileBio">
+                            <i class="fas fa-align-left"></i>
+                            Biografia
+                        </label>
+                        <textarea id="editProfileBio" placeholder="Conte um pouco sobre você, suas paixões e objetivos..." rows="4" maxlength="300"></textarea>
+                        <div class="input-helper">
+                            <span id="bioCounter">0</span>/300 caracteres
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editProfileGoal">
+                            <i class="fas fa-bullseye"></i>
+                            Meta Principal
+                        </label>
+                        <input type="text" id="editProfileGoal" placeholder="Ex: Estudar 2 horas por dia" maxlength="100">
+                        <div class="input-helper">Sua principal motivação ou objetivo atual</div>
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="editProfileGoal">Meta principal</label>
-                    <input type="text" id="editProfileGoal" placeholder="Ex: Estudar 2h por dia">
+                <!-- Preferences Section -->
+                <div class="profile-edit-section">
+                    <div class="section-header">
+                        <i class="fas fa-cog"></i>
+                        <span>Preferências</span>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editProfileNotifications">
+                                <i class="fas fa-bell"></i>
+                                Notificações
+                            </label>
+                            <select id="editProfileNotifications">
+                                <option value="all">Todas as notificações</option>
+                                <option value="important">Apenas importantes</option>
+                                <option value="none">Desativadas</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="editProfileTheme">
+                                <i class="fas fa-palette"></i>
+                                Tema
+                            </label>
+                            <select id="editProfileTheme">
+                                <option value="auto">Automático</option>
+                                <option value="light">Claro</option>
+                                <option value="dark">Escuro</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <div class="modal-footer">
-                <button class="btn-secondary" onclick="closeEditProfileModal()">Cancelar</button>
-                <button class="btn-primary" onclick="saveProfileChanges()">Salvar Alterações</button>
+                <button class="btn-secondary" onclick="closeEditProfileModal()">
+                    <i class="fas fa-times"></i>
+                    <span>Cancelar</span>
+                </button>
+                <button class="btn-primary" onclick="saveProfileChanges()">
+                    <i class="fas fa-save"></i>
+                    <span>Salvar Alterações</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- GPS Tracker Modal -->
+    <div id="gpsTrackerModal" class="modal-overlay">
+        <div class="modal-content gps-tracker-modal">
+            <div class="modal-header">
+                <div class="header-title">
+                    <i class="fas fa-location-dot"></i>
+                    <h3>GPS Tracker</h3>
+                </div>
+                <button class="close-modal" onclick="closeGpsTrackerModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Activity Type Selection -->
+                <div class="activity-selection" id="activitySelection">
+                    <div class="section-header">
+                        <i class="fas fa-running"></i>
+                        <span>Selecione sua Atividade</span>
+                    </div>
+                    
+                    <div class="activity-types">
+                        <button class="activity-type-btn" data-activity="walking" onclick="selectActivity('walking')">
+                            <i class="fas fa-walking"></i>
+                            <span>Caminhada</span>
+                            <small>Ritmo moderado</small>
+                        </button>
+                        <button class="activity-type-btn" data-activity="running" onclick="selectActivity('running')">
+                            <i class="fas fa-running"></i>
+                            <span>Corrida</span>
+                            <small>Alta intensidade</small>
+                        </button>
+                        <button class="activity-type-btn" data-activity="cycling" onclick="selectActivity('cycling')">
+                            <i class="fas fa-biking"></i>
+                            <span>Ciclismo</span>
+                            <small>Pedalada</small>
+                        </button>
+                    </div>
+                    
+                    <div class="start-tracking">
+                        <button class="btn-start-tracking" onclick="startGpsTracking()" disabled>
+                            <i class="fas fa-play"></i>
+                            <span>Iniciar Rastreamento</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- GPS Tracking Interface -->
+                <div class="gps-tracking-interface" id="gpsTrackingInterface" style="display: none;">
+                    <!-- Real-time Metrics -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-route"></i>
+                            </div>
+                            <div class="metric-info">
+                                <span class="metric-label">Distância</span>
+                                <span class="metric-value" id="distanceValue">0.00 km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="metric-info">
+                                <span class="metric-label">Tempo</span>
+                                <span class="metric-value" id="timeValue">00:00:00</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div class="metric-info">
+                                <span class="metric-label">Velocidade</span>
+                                <span class="metric-value" id="speedValue">0.0 km/h</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="metric-info">
+                                <span class="metric-label">Calorias</span>
+                                <span class="metric-value" id="caloriesValue">0 kcal</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-heartbeat"></i>
+                            </div>
+                            <div class="metric-info">
+                                <span class="metric-label">Ritmo</span>
+                                <span class="metric-value" id="paceValue">0'00"/km</span>
+                            </div>
+                        </div>
+                        
+                        <div class="metric-card">
+                            <div class="metric-icon">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <div class="metric-info">
+                                <span class="metric-label">Altitude</span>
+                                <span class="metric-value" id="altitudeValue">0 m</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Map Container -->
+                    <div class="map-container">
+                        <div class="map-header">
+                            <h4><i class="fas fa-map"></i> Trajeto em Tempo Real</h4>
+                            <div class="map-controls">
+                                <button class="map-control-btn" onclick="centerMap()" title="Centralizar no GPS">
+                                    <i class="fas fa-crosshairs"></i>
+                                </button>
+                                <button class="map-control-btn" onclick="toggleMapType()" title="Alterar tipo de mapa">
+                                    <i class="fas fa-layer-group"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div id="gpsMap" class="gps-map">
+                            <div class="map-placeholder">
+                                <i class="fas fa-map-marked-alt"></i>
+                                <p>Carregando mapa...</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tracking Controls -->
+                    <div class="tracking-controls">
+                        <button class="control-btn pause-btn" onclick="pauseTracking()" id="pauseBtn">
+                            <i class="fas fa-pause"></i>
+                            <span>Pausar</span>
+                        </button>
+                        <button class="control-btn resume-btn" onclick="resumeTracking()" id="resumeBtn" style="display: none;">
+                            <i class="fas fa-play"></i>
+                            <span>Continuar</span>
+                        </button>
+                        <button class="control-btn stop-btn" onclick="stopTracking()">
+                            <i class="fas fa-stop"></i>
+                            <span>Finalizar</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Activity Summary -->
+                <div class="activity-summary" id="activitySummary" style="display: none;">
+                    <div class="summary-header">
+                        <i class="fas fa-trophy"></i>
+                        <h3>Atividade Concluída!</h3>
+                        <p>Parabéns pelo seu desempenho</p>
+                    </div>
+                    
+                    <div class="summary-stats">
+                        <div class="summary-stat">
+                            <strong id="summaryDistance">0.00 km</strong>
+                            <span>Distância Total</span>
+                        </div>
+                        <div class="summary-stat">
+                            <strong id="summaryTime">00:00:00</strong>
+                            <span>Tempo Total</span>
+                        </div>
+                        <div class="summary-stat">
+                            <strong id="summaryAvgSpeed">0.0 km/h</strong>
+                            <span>Velocidade Média</span>
+                        </div>
+                        <div class="summary-stat">
+                            <strong id="summaryCalories">0 kcal</strong>
+                            <span>Calorias Queimadas</span>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-actions">
+                        <button class="btn-secondary" onclick="discardActivity()">
+                            <i class="fas fa-trash"></i>
+                            <span>Descartar</span>
+                        </button>
+                        <button class="btn-primary" onclick="saveActivity()">
+                            <i class="fas fa-save"></i>
+                            <span>Salvar Atividade</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -624,6 +914,7 @@
     <script src="js/ai-coach.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/notifications.js"></script>
+    <script src="js/gps-tracker.js"></script>
     
     <!-- PWA Installation -->
     <script>

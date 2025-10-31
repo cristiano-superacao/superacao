@@ -1706,46 +1706,124 @@ body {
 /* PROFILE & SETTINGS MODALS */
 /* ================================== */
 
-/* Profile Edit Modal */
-.profile-edit-avatar {
-    text-align: center;
+/* Profile Modal Specific Styles */
+.profile-modal {
+    max-width: 520px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.profile-modal .modal-header {
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+    color: white;
+    padding: 20px 28px;
+}
+
+.profile-modal .modal-header .header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile-modal .modal-header .header-title i {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.profile-modal .modal-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.profile-modal .close-modal {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.profile-modal .close-modal:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+}
+
+/* Profile Edit Sections */
+.profile-edit-section {
     margin-bottom: 32px;
-    padding: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.profile-edit-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: #333;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.section-header i {
+    color: #4CAF50;
+    font-size: 1rem;
+}
+
+/* Profile Edit Avatar */
+.profile-edit-avatar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 20px;
     background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
     border-radius: 16px;
     border: 1px solid #e5e7eb;
 }
 
 .current-avatar {
-    font-size: 5rem;
-    color: #4CAF50;
-    margin-bottom: 16px;
-    display: block;
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 16px;
+    width: 80px;
+    height: 80px;
     background: linear-gradient(135deg, #4CAF50, #66BB6A);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
+    font-size: 2rem;
     box-shadow: 0 8px 24px rgba(76, 175, 80, 0.2);
+    flex-shrink: 0;
 }
 
 .change-avatar-btn {
     background: linear-gradient(135deg, #f8f9fa, #ffffff);
     border: 2px solid #e5e7eb;
-    padding: 10px 20px;
-    border-radius: 25px;
+    padding: 12px 24px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 0.9rem;
     font-weight: 600;
     color: #6c757d;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 8px;
+    flex: 1;
+    justify-content: center;
 }
 
 .change-avatar-btn:hover {
@@ -1754,6 +1832,114 @@ body {
     border-color: #4CAF50;
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+}
+
+/* Form Rows and Groups */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 24px;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.form-group label i {
+    color: #4CAF50;
+    font-size: 0.9rem;
+    width: 16px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+}
+
+.input-helper {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 6px;
+    line-height: 1.4;
+}
+
+/* Modal Footer Enhanced */
+.profile-modal .modal-footer {
+    background: #f8f9fa;
+    padding: 20px 28px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.profile-modal .btn-secondary,
+.profile-modal .btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    cursor: pointer;
+}
+
+.profile-modal .btn-secondary {
+    background: #fff;
+    color: #6c757d;
+    border-color: #e5e7eb;
+}
+
+.profile-modal .btn-secondary:hover {
+    background: #f8f9fa;
+    border-color: #d1d5db;
+}
+
+.profile-modal .btn-primary {
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    color: white;
+    border-color: #4CAF50;
+}
+
+.profile-modal .btn-primary:hover {
+    background: linear-gradient(135deg, #45a049, #5cb85c);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
 /* Avatar Selection */
@@ -1968,27 +2154,74 @@ body {
     }
 }
 
+@media (max-width: 768px) {
+    .profile-modal {
+        max-width: 95vw;
+        margin: 0 10px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .profile-edit-avatar {
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+    }
+    
+    .profile-modal .modal-footer {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .profile-modal .btn-secondary,
+    .profile-modal .btn-primary {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 @media (max-width: 480px) {
     .modal,
     .modal-overlay {
-        padding: 12px;
+        padding: 8px;
     }
     
-    .modal-header {
-        padding: 16px 20px 12px;
+    .profile-modal .modal-header {
+        padding: 16px 20px;
     }
     
-    .modal-header h3 {
-        font-size: 1.15rem;
+    .profile-modal .modal-header h3 {
+        font-size: 1.1rem;
     }
     
     .modal-body {
-        padding: 20px;
+        padding: 20px 16px;
     }
     
-    .close-btn {
-        width: 32px;
-        height: 32px;
+    .profile-edit-section {
+        margin-bottom: 24px;
+        padding-bottom: 16px;
+    }
+    
+    .section-header {
+        font-size: 0.85rem;
+        margin-bottom: 16px;
+    }
+    
+    .current-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 10px 14px;
+        font-size: 0.9rem;
     }
     
     .profile-edit-avatar {
@@ -2006,4 +2239,425 @@ body {
         padding: 12px 14px;
     }
 }
+
+/* ================================== */
+/* GPS TRACKER MODAL & COMPONENTS */
+/* ================================== */
+
+/* GPS Tracker Modal */
+.gps-tracker-modal {
+    max-width: 600px;
+    max-height: 95vh;
+    overflow-y: auto;
+}
+
+.gps-tracker-modal .modal-header {
+    background: linear-gradient(135deg, #2196F3 0%, #03DAC6 100%);
+    color: white;
+    padding: 20px 28px;
+}
+
+.gps-tracker-modal .modal-header .header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.gps-tracker-modal .modal-header .header-title i {
+    font-size: 1.3rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Header Buttons */
+.header-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.gps-btn {
+    background: linear-gradient(135deg, #2196F3, #03DAC6);
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gps-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+}
+
+/* Activity Selection */
+.activity-types {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+}
+
+.activity-type-btn {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.activity-type-btn:hover {
+    border-color: #2196F3;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(33, 150, 243, 0.15);
+}
+
+.activity-type-btn.selected {
+    background: linear-gradient(135deg, #2196F3, #03DAC6);
+    border-color: #2196F3;
+    color: white;
+}
+
+.activity-type-btn i {
+    font-size: 2rem;
+    margin-bottom: 8px;
+}
+
+.activity-type-btn span {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.activity-type-btn small {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+/* Start Tracking Button */
+.btn-start-tracking {
+    width: 100%;
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    border: none;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.btn-start-tracking:disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+}
+
+.btn-start-tracking:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+}
+
+/* Metrics Grid */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+.metric-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #2196F3, #03DAC6);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.metric-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.metric-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.metric-value {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-top: 4px;
+}
+
+/* Map Container */
+.map-container {
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.map-header {
+    background: #f8f9fa;
+    padding: 16px 20px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map-header h4 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.map-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.map-control-btn {
+    background: white;
+    border: 1px solid #e5e7eb;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.map-control-btn:hover {
+    background: #f8f9fa;
+    border-color: #2196F3;
+}
+
+.gps-map {
+    height: 300px;
+    background: #f8f9fa;
+    position: relative;
+}
+
+.map-placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    gap: 12px;
+}
+
+.map-placeholder i {
+    font-size: 3rem;
+    opacity: 0.5;
+}
+
+/* Tracking Controls */
+.tracking-controls {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+.control-btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+
+.pause-btn {
+    background: linear-gradient(135deg, #ff9800, #ffb74d);
+    color: white;
+}
+
+.resume-btn {
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    color: white;
+}
+
+.stop-btn {
+    background: linear-gradient(135deg, #f44336, #ef5350);
+    color: white;
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Activity Summary */
+.activity-summary {
+    text-align: center;
+    padding: 24px;
+}
+
+.summary-header {
+    margin-bottom: 32px;
+}
+
+.summary-header i {
+    font-size: 3rem;
+    color: #4CAF50;
+    margin-bottom: 16px;
+}
+
+.summary-header h3 {
+    color: #2c3e50;
+    margin-bottom: 8px;
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.summary-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.summary-stat strong {
+    font-size: 1.5rem;
+    color: #2196F3;
+    font-weight: 700;
+}
+
+.summary-stat span {
+    font-size: 0.9rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.summary-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+/* GPS Tracker Responsive Design */
+@media (max-width: 768px) {
+    .gps-tracker-modal {
+        max-width: 95vw;
+        margin: 0 10px;
+    }
+    
+    .activity-types {
+        grid-template-columns: 1fr;
+    }
+    
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .gps-map {
+        height: 250px;
+    }
+    
+    .tracking-controls {
+        flex-direction: column;
+    }
+    
+    .control-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .summary-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .summary-actions {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .metric-card {
+        padding: 16px;
+    }
+    
+    .summary-stats {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .header-buttons {
+        gap: 8px;
+    }
+    
+    .gps-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
 }

@@ -4,7 +4,13 @@
   "description": "Netlify Functions for Superacao App with Neon PostgreSQL",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "netlify:login": "npx netlify login",
+    "netlify:link": "npx netlify link",
+    "deploy": "npx netlify deploy --dir=./ --prod",
+    "deploy:preview": "npx netlify deploy --dir=./",
+    "build": "echo \"Static site - no build required\"",
+    "start": "npx netlify dev"
   },
   "dependencies": {
     "pg": "^8.11.3"

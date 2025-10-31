@@ -767,8 +767,67 @@ class SuperacaoApp {
     showEditProfileModal() {
         const modal = document.getElementById('editProfileModal');
         if (modal) {
-            this.loadCurrentProfile();
+            this.loadCurrentProfileData();
+            this.setupProfileModalEvents();
             modal.style.display = 'flex';
+        }
+    }
+
+    loadCurrentProfileData() {
+        // Load current user data
+        const user = this.getCurrentUser() || {};
+        const settings = this.getSettings() || {};
+        
+        // Personal Info
+        const nameInput = document.getElementById('editProfileName');
+        const emailInput = document.getElementById('editProfileEmail');
+        const bioInput = document.getElementById('editProfileBio');
+        const goalInput = document.getElementById('editProfileGoal');
+        
+        if (nameInput) nameInput.value = user.name || '';
+        if (emailInput) emailInput.value = user.email || '';
+        if (bioInput) bioInput.value = user.bio || '';
+        if (goalInput) goalInput.value = user.goal || '';
+        
+        // Preferences
+        const notificationsSelect = document.getElementById('editProfileNotifications');
+        const themeSelect = document.getElementById('editProfileTheme');
+        
+        if (notificationsSelect) {
+            notificationsSelect.value = settings.notifications || 'all';
+        }
+        if (themeSelect) {
+            themeSelect.value = settings.theme || 'auto';
+        }
+        
+        // Update bio counter
+        this.updateBioCounter();
+    }
+
+    setupProfileModalEvents() {
+        // Bio character counter
+        const bioInput = document.getElementById('editProfileBio');
+        if (bioInput) {
+            bioInput.addEventListener('input', () => this.updateBioCounter());
+        }
+    }
+
+    updateBioCounter() {
+        const bioInput = document.getElementById('editProfileBio');
+        const counter = document.getElementById('bioCounter');
+        
+        if (bioInput && counter) {
+            const length = bioInput.value.length;
+            counter.textContent = length;
+            
+            // Change color based on limit
+            if (length > 250) {
+                counter.style.color = '#dc3545';
+            } else if (length > 200) {
+                counter.style.color = '#ffc107';
+            } else {
+                counter.style.color = '#6c757d';
+            }
         }
     }
 
@@ -897,24 +956,51 @@ class SuperacaoApp {
 
     saveProfileChanges() {
         try {
+            // Get form values
             const name = document.getElementById('editProfileName').value.trim();
+            const email = document.getElementById('editProfileEmail').value.trim();
             const bio = document.getElementById('editProfileBio').value.trim();
             const goal = document.getElementById('editProfileGoal').value.trim();
+            const notifications = document.getElementById('editProfileNotifications').value;
+            const theme = document.getElementById('editProfileTheme').value;
 
+            // Validation
             if (!name) {
                 this.showNotification('Nome é obrigatório', 'error');
                 return;
             }
+            
+            if (email && !this.isValidEmail(email)) {
+                this.showNotification('E-mail inválido', 'error');
+                return;
+            }
+            
+            if (bio.length > 300) {
+                this.showNotification('Biografia deve ter no máximo 300 caracteres', 'error');
+                return;
+            }
 
+            // Update user data
             this.currentUser.name = name;
+            this.currentUser.email = email;
             this.currentUser.bio = bio;
             this.currentUser.goal = goal;
+
+            // Update settings
+            const settings = this.getSettings() || {};
+            settings.notifications = notifications;
+            settings.theme = theme;
+            
+            // Apply theme immediately
+            this.applyTheme(theme);
 
             // Save to storage
             if (this.storage) {
                 this.storage.saveUserData(this.currentUser);
+                this.storage.saveSettings(settings);
             } else {
                 localStorage.setItem('superacao-user', JSON.stringify(this.currentUser));
+                localStorage.setItem('superacao-settings', JSON.stringify(settings));
             }
 
             this.updateUserStats();
@@ -925,6 +1011,39 @@ class SuperacaoApp {
             console.error('Erro ao salvar perfil:', error);
             this.showNotification('Erro ao salvar perfil', 'error');
         }
+    }
+
+    isValidEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    }
+
+    getSettings() {
+        try {
+            if (this.storage && this.storage.getSettings) {
+                return this.storage.getSettings() || {};
+            } else {
+                const saved = localStorage.getItem('superacao-settings');
+                return saved ? JSON.parse(saved) : {};
+            }
+        } catch (error) {
+            console.warn('Error loading settings:', error);
+            return {};
+        }
+    }
+
+    applyTheme(theme) {
+        const body = document.body;
+        
+        // Remove existing theme classes
+        body.classList.remove('light-theme', 'dark-theme');
+        
+        if (theme === 'dark') {
+            body.classList.add('dark-theme');
+        } else if (theme === 'light') {
+            body.classList.add('light-theme');
+        }
+        // 'auto' uses system preference (no class needed)
     }
 
     applySettings(settings) {
