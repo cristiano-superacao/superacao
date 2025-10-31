@@ -1,0 +1,21 @@
+{
+  "name": "superacao-netlify-functions",
+  "version": "1.0.0",
+  "description": "Netlify Functions for Superacao App with Neon PostgreSQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "pg": "^8.11.3"
+  },
+  "keywords": [
+    "netlify",
+    "functions",
+    "postgresql",
+    "neon",
+    "serverless"
+  ],
+  "author": "Superacao Team",
+  "license": "MIT"
+}

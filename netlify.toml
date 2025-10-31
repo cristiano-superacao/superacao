@@ -2,8 +2,11 @@
   # Diretório de publicação (onde estão os arquivos finais)
   publish = "."
   
-  # Comando de build (se necessário)
-  command = "echo 'Build completed - Static site ready'"
+  # Comando de build (instalar dependências das functions)
+  command = "npm install"
+  
+  # Diretório das Netlify Functions
+  functions = "netlify/functions"
 
 [build.environment]
   # Variáveis de ambiente
