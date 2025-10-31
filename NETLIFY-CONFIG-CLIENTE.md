@@ -1,8 +1,8 @@
 # 🎯 Configuração Netlify - Cliente
 
 ## 📊 Informações do Projeto:
-- **Projeto ID:** superelimites
-- **Dashboard:** https://app.netlify.com/projects/superelimites/overview
+- **Site URL:** https://superarlimites.netlify.app/
+- **Dashboard:** https://app.netlify.com/sites/superarlimites/overview
 - **Repositório:** https://github.com/cristiano-superacao/superacao
 - **Branch:** master
 
@@ -18,14 +18,14 @@
   NODE_VERSION = "18"
 ```
 
-### 2. Domain Configuration:
-Para configurar seu domínio personalizado:
+### 2. Site Configuration:
+Configuração do site no Netlify:
 
-1. Acesse: https://app.netlify.com/projects/superelimites/overview
-2. Vá em **Domain settings**
-3. Clique em **Add custom domain**
-4. Digite seu domínio personalizado
-5. Configure os DNS conforme instruções do Netlify
+1. **Site URL:** https://superarlimites.netlify.app/
+2. **Dashboard:** https://app.netlify.com/sites/superarlimites/overview
+3. **Deploy automático:** Ativo via GitHub
+4. **SSL:** Automático (HTTPS habilitado)
+5. **CDN Global:** Ativo para performance
 
 ### 3. Deploy Automático Ativo:
 ✅ Qualquer push para `master` branch dispara deploy automático
@@ -57,10 +57,11 @@ git push origin master
 - [ ] Analytics (opcional)
 
 ## 🔗 Links Importantes:
-- **Dashboard:** https://app.netlify.com/projects/superelimites/overview  
+- **Site Live:** https://superarlimites.netlify.app/
+- **Dashboard:** https://app.netlify.com/sites/superarlimites/overview
 - **Deploy Logs:** Disponível no dashboard
-- **Billing:** https://app.netlify.com/teams/[seu-team]/billing
-- **Site Settings:** https://app.netlify.com/sites/superelimites/settings
+- **Site Settings:** Configurações completas no Netlify
+- **App PWA:** https://superarlimites.netlify.app/app/
 
 ## 🎯 Próximos Passos:
 1. Configure seu domínio personalizado no dashboard

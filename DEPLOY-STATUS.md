@@ -3,10 +3,10 @@
 ## ✅ Deploy Atualizado em: 30/10/2025
 
 ### 📊 Última Versão Deployada:
-- **Commit Hash:** `b52cc7e`
+- **Site URL:** https://superarlimites.netlify.app/
 - **Branch:** `master`
-- **Projeto Netlify:** https://app.netlify.com/projects/superelimites/overview
-- **Domínio:** Configurado via Netlify Dashboard
+- **Dashboard:** https://app.netlify.com/sites/superarlimites/overview
+- **Status:** Deploy automático ativo
 
 ### 🎯 Otimizações Incluídas neste Deploy:
 
@@ -61,10 +61,11 @@ O Netlify fará o deploy automaticamente em ~2-3 minutos.
 
 ### 📞 Links Úteis:
 
-- **Netlify Dashboard:** https://app.netlify.com/projects/superelimites/overview
+- **Site Live:** https://superarlimites.netlify.app/
+- **App PWA:** https://superarlimites.netlify.app/app/
+- **Netlify Dashboard:** https://app.netlify.com/sites/superarlimites/overview
 - **GitHub Repo:** https://github.com/cristiano-superacao/superacao
-- **Deploy Logs:** Disponível no dashboard do Netlify
-- **Domínio:** Configure seu domínio personalizado no Netlify Dashboard
+- **Deploy Logs:** Monitoramento em tempo real
 
 ---
 *Deploy configurado e otimizado por GitHub Copilot* 🤖✨

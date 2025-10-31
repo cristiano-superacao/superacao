@@ -75,8 +75,9 @@
 - **Global edge performance**
 
 ### 🔗 **Links Importantes:**
+- **Site Live:** https://superarlimites.netlify.app/
 - **GitHub:** https://github.com/cristiano-superacao/superacao
-- **Netlify:** https://app.netlify.com/projects/superelimites/overview
+- **Netlify:** https://app.netlify.com/sites/superarlimites/overview
 - **Neon Console:** https://console.neon.tech/
 
 ### 📁 **Estrutura Final:**
