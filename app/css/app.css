@@ -1708,41 +1708,40 @@ body {
 
 /* Profile Modal Specific Styles */
 .profile-modal {
-    max-width: 520px;
-    max-height: 90vh;
+    max-width: 480px;
+    max-height: 85vh;
     overflow-y: auto;
 }
 
 .profile-modal .modal-header {
     background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
     color: white;
-    padding: 20px 28px;
+    padding: 16px 24px;
 }
 
 .profile-modal .modal-header .header-title {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .profile-modal .modal-header .header-title i {
-    font-size: 1.2rem;
-    opacity: 0.9;
+    font-size: 1.1rem;
 }
 
 .profile-modal .modal-header h3 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 600;
 }
 
 .profile-modal .close-modal {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
     border: none;
     color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1751,125 +1750,125 @@ body {
 }
 
 .profile-modal .close-modal:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.profile-modal .modal-body {
+    padding: 20px 24px;
 }
 
 /* Profile Edit Sections */
 .profile-edit-section {
-    margin-bottom: 32px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid #f1f3f4;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f0f0f0;
 }
 
 .profile-edit-section:last-child {
     border-bottom: none;
     margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .section-header {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 8px;
+    margin-bottom: 12px;
     font-weight: 600;
-    color: #333;
-    font-size: 0.95rem;
+    color: #2c3e50;
+    font-size: 0.85rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 .section-header i {
     color: #4CAF50;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 /* Profile Edit Avatar */
 .profile-edit-avatar {
     display: flex;
     align-items: center;
-    gap: 24px;
-    padding: 20px;
-    background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
-    border-radius: 16px;
-    border: 1px solid #e5e7eb;
+    gap: 16px;
+    padding: 16px;
+    background: #fafbfc;
+    border-radius: 12px;
+    border: 1px solid #e1e5e9;
 }
 
 .current-avatar {
-    width: 80px;
-    height: 80px;
+    width: 64px;
+    height: 64px;
     background: linear-gradient(135deg, #4CAF50, #66BB6A);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 2rem;
-    box-shadow: 0 8px 24px rgba(76, 175, 80, 0.2);
+    font-size: 1.5rem;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.15);
     flex-shrink: 0;
 }
 
 .change-avatar-btn {
-    background: linear-gradient(135deg, #f8f9fa, #ffffff);
-    border: 2px solid #e5e7eb;
-    padding: 12px 24px;
-    border-radius: 12px;
+    background: white;
+    border: 1px solid #e1e5e9;
+    padding: 8px 16px;
+    border-radius: 8px;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #6c757d;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #495057;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
-    gap: 8px;
-    flex: 1;
-    justify-content: center;
+    gap: 6px;
 }
 
 .change-avatar-btn:hover {
-    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    background: #4CAF50;
     color: white;
     border-color: #4CAF50;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
 }
 
 /* Form Rows and Groups */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 16px;
 }
 
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .form-group label {
     display: flex;
     align-items: center;
-    gap: 8px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
+    gap: 6px;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
 }
 
 .form-group label i {
     color: #4CAF50;
-    font-size: 0.9rem;
-    width: 16px;
+    font-size: 0.8rem;
+    width: 14px;
 }
 
 .form-group input,
 .form-group textarea,
 .form-group select {
     width: 100%;
-    padding: 12px 16px;
-    border: 2px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 0.95rem;
-    transition: all 0.3s ease;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: border-color 0.2s ease;
     background: #fff;
     box-sizing: border-box;
 }
@@ -1879,29 +1878,28 @@ body {
 .form-group select:focus {
     outline: none;
     border-color: #4CAF50;
-    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
 .form-group textarea {
     resize: vertical;
-    min-height: 100px;
-    line-height: 1.5;
+    min-height: 80px;
+    line-height: 1.4;
 }
 
 .input-helper {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #6c757d;
-    margin-top: 6px;
-    line-height: 1.4;
+    margin-top: 4px;
+    line-height: 1.3;
 }
 
 /* Modal Footer Enhanced */
 .profile-modal .modal-footer {
-    background: #f8f9fa;
-    padding: 20px 28px;
-    border-top: 1px solid #e5e7eb;
+    background: #fafbfc;
+    padding: 16px 24px;
+    border-top: 1px solid #e1e5e9;
     display: flex;
-    gap: 12px;
+    gap: 10px;
     justify-content: flex-end;
 }
 
@@ -1909,37 +1907,38 @@ body {
 .profile-modal .btn-primary {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
+    gap: 6px;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    border: 1px solid;
     cursor: pointer;
+    min-width: 100px;
+    justify-content: center;
 }
 
 .profile-modal .btn-secondary {
-    background: #fff;
-    color: #6c757d;
-    border-color: #e5e7eb;
+    background: white;
+    color: #495057;
+    border-color: #dee2e6;
 }
 
 .profile-modal .btn-secondary:hover {
     background: #f8f9fa;
-    border-color: #d1d5db;
+    border-color: #adb5bd;
 }
 
 .profile-modal .btn-primary {
-    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    background: #4CAF50;
     color: white;
     border-color: #4CAF50;
 }
 
 .profile-modal .btn-primary:hover {
-    background: linear-gradient(135deg, #45a049, #5cb85c);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+    background: #45a049;
+    border-color: #45a049;
 }
 
 /* Avatar Selection */
@@ -2157,71 +2156,80 @@ body {
 @media (max-width: 768px) {
     .profile-modal {
         max-width: 95vw;
-        margin: 0 10px;
+        margin: 0 8px;
+    }
+    
+    .profile-modal .modal-body {
+        padding: 16px 20px;
     }
     
     .form-row {
         grid-template-columns: 1fr;
-        gap: 16px;
+        gap: 12px;
     }
     
     .profile-edit-avatar {
         flex-direction: column;
         text-align: center;
-        gap: 16px;
+        gap: 12px;
+        padding: 12px;
     }
     
     .profile-modal .modal-footer {
+        padding: 12px 20px;
         flex-direction: column;
-        gap: 12px;
+        gap: 8px;
     }
     
     .profile-modal .btn-secondary,
     .profile-modal .btn-primary {
         width: 100%;
-        justify-content: center;
     }
 }
 
 @media (max-width: 480px) {
     .modal,
     .modal-overlay {
-        padding: 8px;
+        padding: 4px;
     }
     
     .profile-modal .modal-header {
-        padding: 16px 20px;
+        padding: 12px 16px;
     }
     
     .profile-modal .modal-header h3 {
-        font-size: 1.1rem;
+        font-size: 1rem;
     }
     
-    .modal-body {
-        padding: 20px 16px;
+    .profile-modal .modal-body {
+        padding: 12px 16px;
     }
     
     .profile-edit-section {
-        margin-bottom: 24px;
-        padding-bottom: 16px;
+        margin-bottom: 16px;
+        padding-bottom: 12px;
     }
     
     .section-header {
-        font-size: 0.85rem;
-        margin-bottom: 16px;
+        font-size: 0.8rem;
+        margin-bottom: 8px;
     }
     
     .current-avatar {
-        width: 70px;
-        height: 70px;
-        font-size: 1.8rem;
+        width: 56px;
+        height: 56px;
+        font-size: 1.3rem;
     }
     
     .form-group input,
     .form-group textarea,
     .form-group select {
-        padding: 10px 14px;
-        font-size: 0.9rem;
+        padding: 8px 10px;
+        font-size: 0.85rem;
+    }
+    
+    .profile-modal .modal-footer {
+        padding: 10px 16px;
     }
     
     .profile-edit-avatar {

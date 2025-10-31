@@ -462,7 +462,7 @@
                 <div class="profile-edit-section">
                     <div class="section-header">
                         <i class="fas fa-image"></i>
-                        <span>Foto do Perfil</span>
+                        <span>Foto</span>
                     </div>
                     <div class="profile-edit-avatar">
                         <div class="current-avatar" id="editProfileAvatar">
@@ -470,7 +470,7 @@
                         </div>
                         <button class="change-avatar-btn" onclick="showAvatarSelection()">
                             <i class="fas fa-camera"></i>
-                            <span>Alterar Foto</span>
+                            <span>Alterar</span>
                         </button>
                     </div>
                 </div>
@@ -478,27 +478,23 @@
                 <!-- Personal Info Section -->
                 <div class="profile-edit-section">
                     <div class="section-header">
-                        <i class="fas fa-id-card"></i>
-                        <span>Informações Pessoais</span>
+                        <i class="fas fa-user"></i>
+                        <span>Dados Pessoais</span>
                     </div>
-                    
                     <div class="form-row">
                         <div class="form-group">
                             <label for="editProfileName">
                                 <i class="fas fa-user"></i>
-                                Nome Completo
+                                Nome
                             </label>
-                            <input type="text" id="editProfileName" placeholder="Digite seu nome completo" maxlength="50">
-                            <div class="input-helper">Será exibido no seu perfil público</div>
+                            <input type="text" id="editProfileName" placeholder="Seu nome" maxlength="50">
                         </div>
-                        
                         <div class="form-group">
                             <label for="editProfileEmail">
                                 <i class="fas fa-envelope"></i>
                                 E-mail
                             </label>
                             <input type="email" id="editProfileEmail" placeholder="seu@email.com" maxlength="100">
-                            <div class="input-helper">Para notificações e recuperação de conta</div>
                         </div>
                     </div>
                 </div>
@@ -506,28 +502,25 @@
                 <!-- About Section -->
                 <div class="profile-edit-section">
                     <div class="section-header">
-                        <i class="fas fa-quote-left"></i>
-                        <span>Sobre Você</span>
+                        <i class="fas fa-info-circle"></i>
+                        <span>Sobre</span>
                     </div>
-                    
                     <div class="form-group">
                         <label for="editProfileBio">
                             <i class="fas fa-align-left"></i>
                             Biografia
                         </label>
-                        <textarea id="editProfileBio" placeholder="Conte um pouco sobre você, suas paixões e objetivos..." rows="4" maxlength="300"></textarea>
+                        <textarea id="editProfileBio" placeholder="Conte sobre você..." rows="3" maxlength="200"></textarea>
                         <div class="input-helper">
-                            <span id="bioCounter">0</span>/300 caracteres
+                            <span id="bioCounter">0</span>/200 caracteres
                         </div>
                     </div>
-                    
                     <div class="form-group">
                         <label for="editProfileGoal">
                             <i class="fas fa-bullseye"></i>
-                            Meta Principal
+                            Meta
                         </label>
-                        <input type="text" id="editProfileGoal" placeholder="Ex: Estudar 2 horas por dia" maxlength="100">
-                        <div class="input-helper">Sua principal motivação ou objetivo atual</div>
+                        <input type="text" id="editProfileGoal" placeholder="Sua meta principal" maxlength="80">
                     </div>
                 </div>
                 
@@ -535,9 +528,8 @@
                 <div class="profile-edit-section">
                     <div class="section-header">
                         <i class="fas fa-cog"></i>
-                        <span>Preferências</span>
+                        <span>Configurações</span>
                     </div>
-                    
                     <div class="form-row">
                         <div class="form-group">
                             <label for="editProfileNotifications">
@@ -545,12 +537,11 @@
                                 Notificações
                             </label>
                             <select id="editProfileNotifications">
-                                <option value="all">Todas as notificações</option>
-                                <option value="important">Apenas importantes</option>
+                                <option value="all">Todas</option>
+                                <option value="important">Importantes</option>
                                 <option value="none">Desativadas</option>
                             </select>
                         </div>
-                        
                         <div class="form-group">
                             <label for="editProfileTheme">
                                 <i class="fas fa-palette"></i>
