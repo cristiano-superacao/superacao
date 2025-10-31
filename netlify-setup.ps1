@@ -3,7 +3,7 @@
 
 param(
     [string]$SiteName = "supermittos",
-    [string]$Domain = "supermittos.netlify.app",
+    [string]$ProjectName = "superelimites",
     [switch]$OpenBrowser = $true
 )
 

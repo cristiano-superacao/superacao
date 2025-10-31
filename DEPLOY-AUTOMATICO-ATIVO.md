@@ -32,8 +32,8 @@ Publish directory: .
 
 ## 🌐 URLS APÓS DEPLOY
 
-- **Site Principal:** https://supermittos.netlify.app/
-- **App PWA:** https://supermittos.netlify.app/app/  
+- **Projeto Netlify:** superelimites
+- **Dashboard:** https://app.netlify.com/projects/superelimites/overview  
 - **Dashboard Netlify:** https://app.netlify.com/sites/supermittos
 
 ---
@@ -51,7 +51,7 @@ git push origin master
 # ↓ Netlify detecta automaticamente ↓
 # ✅ Build automático (30 segundos)
 # ✅ Deploy automático 
-# ✅ Site atualizado em https://supermittos.netlify.app/
+# ✅ Deploy automático configurado
 ```
 
 ---
@@ -129,7 +129,7 @@ git push origin master --force
 2. **Git commit + push** para GitHub  
 3. **Netlify detecta** automaticamente
 4. **Build + Deploy** em ~30 segundos
-5. **Site atualizado** em https://supermittos.netlify.app/
+5. **Site atualizado** automaticamente
 
 ### 🚀 Benefícios:
 - ⚡ **Deploy instantâneo:** 30 segundos da alteração ao ar
@@ -142,8 +142,8 @@ git push origin master --force
 
 ## 📱 TESTE FINAL
 
-1. **Acesse:** https://supermittos.netlify.app/
-2. **Teste PWA:** https://supermittos.netlify.app/app/
+1. **Dashboard:** https://app.netlify.com/projects/superelimites/overview
+2. **Configure seu domínio** personalizado no Netlify
 3. **Instale o app:** Via botão do navegador
 4. **Teste offline:** Desconecte internet e use
 5. **Teste mobile:** Responsividade em dispositivos

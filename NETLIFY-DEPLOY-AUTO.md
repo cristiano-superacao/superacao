@@ -3,7 +3,7 @@
 ## ✅ Status do Projeto
 - **Repositório:** https://github.com/cristiano-superacao/superacao.git
 - **Branch:** master
-- **Site Target:** https://supermittos.netlify.app/
+- **Projeto Target:** https://app.netlify.com/projects/superelimites/overview
 - **Última atualização:** Otimizações de layout completadas
 
 ## 🔗 Configuração de Deploy Automático
@@ -54,8 +54,8 @@ Publish directory: .
 
 ## 🌐 URLs do Projeto
 
-- **Site Principal:** https://supermittos.netlify.app/
-- **App PWA:** https://supermittos.netlify.app/app/
+- **Projeto Netlify:** superelimites
+- **Dashboard:** https://app.netlify.com/projects/superelimites/overview
 - **GitHub:** https://github.com/cristiano-superacao/superacao
 
 ## 🔄 Deploy Automático Ativo
@@ -105,7 +105,7 @@ Publish directory: .
 
 1. **Push para GitHub** → Netlify detecta automaticamente
 2. **Build Process** → Netlify executa o build (instantâneo para sites estáticos)
-3. **Deploy** → Site atualizado em https://supermittos.netlify.app/
+3. **Deploy** → Site atualizado automaticamente
 4. **Notificação** → Status enviado por email/Slack
 
 ## 🛠️ Comandos para Deploy Manual (se necessário)
@@ -161,7 +161,7 @@ git push origin master
 
 ## 🎯 Próximos Passos
 
-1. **Verificar Deploy:** Acessar https://supermittos.netlify.app/ em ~2 minutos
+1. **Verificar Deploy:** Monitorar no dashboard do Netlify em ~2 minutos
 2. **Testar PWA:** Instalar o app via navegador
 3. **Validar Mobile:** Testar responsividade em dispositivos
 4. **Monitorar Analytics:** Acompanhar métricas de acesso
@@ -184,4 +184,4 @@ git push origin master
 ---
 
 **🎉 Deploy Automático Configurado e Ativo!**
-*Todas as alterações no GitHub serão automaticamente refletidas em https://supermittos.netlify.app/*
+*Todas as alterações no GitHub serão automaticamente deployadas via Netlify*

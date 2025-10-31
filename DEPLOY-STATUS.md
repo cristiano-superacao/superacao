@@ -5,8 +5,8 @@
 ### 📊 Última Versão Deployada:
 - **Commit Hash:** `b52cc7e`
 - **Branch:** `master`
-- **Site URL:** https://supermittos.netlify.app/
 - **Projeto Netlify:** https://app.netlify.com/projects/superelimites/overview
+- **Domínio:** Configurado via Netlify Dashboard
 
 ### 🎯 Otimizações Incluídas neste Deploy:
 
@@ -61,10 +61,10 @@ O Netlify fará o deploy automaticamente em ~2-3 minutos.
 
 ### 📞 Links Úteis:
 
-- **Site Live:** https://supermittos.netlify.app/
 - **Netlify Dashboard:** https://app.netlify.com/projects/superelimites/overview
 - **GitHub Repo:** https://github.com/cristiano-superacao/superacao
 - **Deploy Logs:** Disponível no dashboard do Netlify
+- **Domínio:** Configure seu domínio personalizado no Netlify Dashboard
 
 ---
 *Deploy configurado e otimizado por GitHub Copilot* 🤖✨
