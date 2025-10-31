@@ -411,6 +411,44 @@ p {
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
+/* Secondary buttons container */
+.secondary-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Install button styling */
+.btn-install {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(76, 175, 80, 0.25);
+    letter-spacing: 0.025em;
+}
+
+.btn-install:hover {
+    background: linear-gradient(135deg, #45a049, #3d8b40);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 25px rgba(76, 175, 80, 0.35);
+}
+
+.btn-install i {
+    font-size: 1.1rem;
+}
+
 .trust-indicators {
     display: none;
     /* Seção ocultada - conteúdo removido */
@@ -790,6 +828,20 @@ p {
         align-items: center;
         gap: 20px;
     }
+    
+    .secondary-buttons {
+        width: 100%;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .btn-demo, .btn-install {
+        flex: 1;
+        min-width: 120px;
+        max-width: 160px;
+        padding: 16px 20px;
+        font-size: 0.9rem;
+    }
 
     .btn-main,
     .btn-secondary {
@@ -934,6 +986,19 @@ p {
         padding: 16px 24px;
         font-size: 1rem;
         min-width: 140px;
+    }
+    
+    .secondary-buttons {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+    
+    .btn-demo, .btn-install {
+        width: 100%;
+        max-width: none;
+        padding: 15px 20px;
+        font-size: 0.95rem;
     }
 
     .btn-title {
