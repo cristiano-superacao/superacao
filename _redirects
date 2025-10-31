@@ -1,8 +1,8 @@
 # Netlify Redirects Configuration
 # https://docs.netlify.com/routing/redirects/
 
-# SPA routing for /app
-/app             /app/index.html    200
+# SPA routing for /app (must be first to avoid conflicts)
+/app/            /app/index.html    200
 /app/*           /app/index.html    200
 
 # Compatibility redirects
@@ -10,5 +10,8 @@
 /mobile          /app/              302  
 /pwa             /app/              302
 
-# Default fallback - serve index.html for any path not found
-/*               /index.html        200
+# Specific routes that should not redirect to main index.html
+/api/*           /404.html          404
+
+# Default fallback - serve main index.html only for root paths
+/                /index.html        200
