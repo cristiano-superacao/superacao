@@ -505,5 +505,491 @@ function collectFeedback() {
 }
 
 // ================================
+// GOOGLE LOGIN INTEGRATION
+// ================================
+
+// Configuração do Google OAuth
+const GOOGLE_CLIENT_ID = 'your-google-client-id.apps.googleusercontent.com';
+
+// Inicializar Google Sign-In
+function initGoogleAuth() {
+    if (typeof google !== 'undefined' && google.accounts) {
+        google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: handleGoogleSignIn,
+            auto_select: false,
+            cancel_on_tap_outside: true
+        });
+    }
+}
+
+// Login com Google
+function loginWithGoogle() {
+    // Track login attempt
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'login_attempt', {
+            'method': 'google',
+            'page_location': window.location.href
+        });
+    }
+
+    // Verificar se Google SDK está carregado
+    if (typeof google !== 'undefined' && google.accounts) {
+        google.accounts.id.prompt();
+    } else {
+        // Fallback para simulação (desenvolvimento)
+        simulateGoogleLogin();
+    }
+}
+
+// Simular login Google (para desenvolvimento)
+function simulateGoogleLogin() {
+    const mockUser = {
+        id: 'mock_' + Date.now(),
+        name: 'Usuário Exemplo',
+        email: 'usuario@exemplo.com',
+        picture: '',
+        given_name: 'Usuário',
+        family_name: 'Exemplo'
+    };
+    
+    handleSuccessfulLogin(mockUser);
+}
+
+// Callback do Google Sign-In
+function handleGoogleSignIn(response) {
+    try {
+        // Decodificar JWT token
+        const credential = parseJwt(response.credential);
+        handleSuccessfulLogin(credential);
+    } catch (error) {
+        console.error('Erro ao processar login Google:', error);
+        showNotification('Erro ao fazer login. Tente novamente.', 'error');
+    }
+}
+
+// Processar login bem-sucedido
+function handleSuccessfulLogin(userData) {
+    // Salvar dados do usuário
+    const userSession = {
+        id: userData.sub || userData.id,
+        name: userData.name,
+        email: userData.email,
+        picture: userData.picture || '',
+        given_name: userData.given_name || userData.name.split(' ')[0],
+        family_name: userData.family_name || userData.name.split(' ').slice(1).join(' '),
+        login_time: new Date().toISOString(),
+        login_method: 'google'
+    };
+    
+    // Salvar no localStorage
+    localStorage.setItem('superacao_user_session', JSON.stringify(userSession));
+    localStorage.setItem('superacao_user_type', 'student'); // Padrão é aluno
+    
+    // Analytics
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'login_success', {
+            'method': 'google',
+            'user_id': userSession.id
+        });
+    }
+    
+    // Notification
+    showNotification(`Bem-vindo, ${userSession.given_name}! 🎉`, 'success');
+    
+    // Redirecionar para o app
+    setTimeout(() => {
+        window.location.href = './app/?tab=profile&welcome=true';
+    }, 1500);
+}
+
+// Decodificar JWT token
+function parseJwt(token) {
+    try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+        return JSON.parse(jsonPayload);
+    } catch (error) {
+        throw new Error('Token inválido');
+    }
+}
+
+// ================================
+// INSTALL MODAL & PWA
+// ================================
+
+let deferredInstallPrompt = null;
+
+// Abrir modal de instalação
+function openInstallModal() {
+    const modal = document.getElementById('installModal');
+    if (modal) {
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    } else {
+        // Criar modal dinamicamente se não existir
+        createInstallModal();
+    }
+    
+    // Track modal open
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'install_modal_open', {
+            'page_location': window.location.href
+        });
+    }
+}
+
+// Criar modal de instalação
+function createInstallModal() {
+    const modal = document.createElement('div');
+    modal.id = 'installModal';
+    modal.className = 'modal install-modal';
+    modal.innerHTML = `
+        <div class="modal-content install-content">
+            <div class="modal-header">
+                <h2>📱 Instalar Superação</h2>
+                <button class="close-btn" onclick="closeInstallModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="install-options">
+                    <div class="install-option pwa-install ${deferredInstallPrompt ? 'available' : 'unavailable'}">
+                        <div class="option-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="option-content">
+                            <h3>Instalar como App</h3>
+                            <p>Instale diretamente no seu dispositivo para acesso rápido</p>
+                            <button class="btn-install-pwa" onclick="installPWA()" ${!deferredInstallPrompt ? 'disabled' : ''}>
+                                <i class="fas fa-download"></i>
+                                ${deferredInstallPrompt ? 'Instalar Agora' : 'Não Disponível'}
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="install-option web-access">
+                        <div class="option-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="option-content">
+                            <h3>Usar no Navegador</h3>
+                            <p>Acesse diretamente pelo navegador sem instalação</p>
+                            <a href="./app/" class="btn-web-access" onclick="trackDownload('WebApp')">
+                                <i class="fas fa-external-link-alt"></i>
+                                Abrir App Web
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="install-option manual-install">
+                        <div class="option-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="option-content">
+                            <h3>Instruções Manuais</h3>
+                            <p>Como instalar manualmente em diferentes dispositivos</p>
+                            <button class="btn-manual-guide" onclick="showManualInstallGuide()">
+                                <i class="fas fa-book-open"></i>
+                                Ver Guia
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    setTimeout(() => modal.classList.add('active'), 10);
+}
+
+// Fechar modal de instalação
+function closeInstallModal() {
+    const modal = document.getElementById('installModal');
+    if (modal) {
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }, 300);
+    }
+}
+
+// Instalar PWA
+function installPWA() {
+    if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        
+        deferredInstallPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('✅ PWA instalado com sucesso');
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'pwa_install_accepted');
+                }
+                showNotification('App instalado com sucesso! 🎉', 'success');
+                closeInstallModal();
+            } else {
+                console.log('❌ Instalação PWA cancelada');
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'pwa_install_dismissed');
+                }
+            }
+            deferredInstallPrompt = null;
+        });
+    } else {
+        showNotification('Instalação não disponível neste momento', 'warning');
+    }
+}
+
+// Mostrar guia de instalação manual
+function showManualInstallGuide() {
+    const guideContent = `
+        <div class="manual-guide">
+            <h3>📱 Como Instalar Manualmente</h3>
+            
+            <div class="guide-section">
+                <h4>🤖 Android (Chrome)</h4>
+                <ol>
+                    <li>Toque no menu (⋮) do navegador</li>
+                    <li>Selecione "Instalar app" ou "Adicionar à tela inicial"</li>
+                    <li>Confirme a instalação</li>
+                </ol>
+            </div>
+            
+            <div class="guide-section">
+                <h4>🍎 iOS (Safari)</h4>
+                <ol>
+                    <li>Toque no botão de compartilhar (📤)</li>
+                    <li>Selecione "Adicionar à Tela de Início"</li>
+                    <li>Toque em "Adicionar"</li>
+                </ol>
+            </div>
+            
+            <div class="guide-section">
+                <h4>💻 Desktop (Chrome/Edge)</h4>
+                <ol>
+                    <li>Clique no ícone de instalação na barra de endereços</li>
+                    <li>Ou use Ctrl+Shift+A (Chrome)</li>
+                    <li>Confirme a instalação</li>
+                </ol>
+            </div>
+        </div>
+    `;
+    
+    // Substituir conteúdo do modal temporariamente
+    const modalBody = document.querySelector('#installModal .modal-body');
+    const originalContent = modalBody.innerHTML;
+    
+    modalBody.innerHTML = guideContent + `
+        <div class="guide-actions">
+            <button class="btn-back" onclick="restoreInstallModal('${originalContent.replace(/'/g, "\\'")}')">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </button>
+        </div>
+    `;
+}
+
+// Restaurar conteúdo original do modal
+function restoreInstallModal(originalContent) {
+    const modalBody = document.querySelector('#installModal .modal-body');
+    modalBody.innerHTML = originalContent.replace(/\\'/g, "'");
+}
+
+// Capturar evento de instalação PWA
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    console.log('💾 PWA pode ser instalado');
+    
+    // Atualizar interface se o modal estiver aberto
+    const pwaOption = document.querySelector('.pwa-install');
+    const installBtn = document.querySelector('.btn-install-pwa');
+    if (pwaOption && installBtn) {
+        pwaOption.classList.remove('unavailable');
+        pwaOption.classList.add('available');
+        installBtn.disabled = false;
+        installBtn.innerHTML = '<i class="fas fa-download"></i> Instalar Agora';
+    }
+});
+
+// ================================
+// UTILITY FUNCTIONS & SESSION MANAGEMENT
+// ================================
+
+// Obter usuário atual
+function getCurrentUser() {
+    try {
+        const userSession = localStorage.getItem('superacao_user_session');
+        return userSession ? JSON.parse(userSession) : null;
+    } catch (error) {
+        console.error('Erro ao obter usuário:', error);
+        return null;
+    }
+}
+
+// Logout do usuário
+function logout() {
+    localStorage.removeItem('superacao_user_session');
+    localStorage.removeItem('superacao_user_type');
+    
+    // Analytics
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'logout', {
+            'method': 'manual'
+        });
+    }
+    
+    showNotification('Logout realizado com sucesso!', 'success');
+    
+    // Recarregar página para resetar estado
+    setTimeout(() => {
+        window.location.reload();
+    }, 1000);
+}
+
+// Sistema de Notificações
+function showNotification(message, type = 'success', duration = 3000) {
+    // Remove notificação existente se houver
+    const existingNotification = document.querySelector('.notification');
+    if (existingNotification) {
+        existingNotification.remove();
+    }
+    
+    // Cria a notificação
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <span class="notification-icon">
+                ${type === 'success' ? '✓' : type === 'error' ? '✗' : type === 'warning' ? '⚠' : 'ℹ'}
+            </span>
+            <span class="notification-message">${message}</span>
+            <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+        </div>
+    `;
+    
+    // Adiciona ao corpo da página
+    document.body.appendChild(notification);
+    
+    // Remove automaticamente após o tempo especificado
+    setTimeout(() => {
+        if (notification && notification.parentNode) {
+            notification.style.animation = 'slideOut 0.3s ease-in forwards';
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, duration);
+}
+
+// Função para verificar compatibilidade do PWA
+function checkPWACompatibility() {
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isAndroid = /Android/.test(navigator.userAgent);
+    const isChrome = /Chrome/.test(navigator.userAgent);
+    const isEdge = /Edg/.test(navigator.userAgent);
+    const isFirefox = /Firefox/.test(navigator.userAgent);
+    
+    return {
+        canInstall: (isChrome || isEdge || isFirefox) && !isStandalone,
+        isStandalone,
+        isIOS,
+        isAndroid,
+        browser: isChrome ? 'Chrome' : isEdge ? 'Edge' : isFirefox ? 'Firefox' : 'Unknown'
+    };
+}
+
+// Função para atualizar UI baseada no status de login
+function updateUIForUser(user) {
+    const loginButton = document.querySelector('.btn-login-header');
+    if (loginButton && user) {
+        loginButton.innerHTML = `
+            <i class="fab fa-google"></i>
+            <span>Olá, ${user.given_name || user.name.split(' ')[0]}</span>
+        `;
+        loginButton.onclick = () => {
+            window.location.href = 'app/';
+        };
+        
+        // Adicionar título com nome completo
+        loginButton.title = `Logado como ${user.name} - Clique para acessar o painel`;
+    }
+}
+
+// Aguarda o carregamento do DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Inicializar autenticação Google
+    initGoogleAuth();
+    
+    // Configurar eventos dos botões
+    const loginButton = document.querySelector('#loginButton, .btn-login-header');
+    
+    if (loginButton) {
+        loginButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            const user = getCurrentUser();
+            if (user) {
+                // Se já está logado, ir para o painel
+                window.location.href = 'app/';
+            } else {
+                // Se não está logado, fazer login
+                loginWithGoogle();
+            }
+        });
+    }
+    
+    // Verificar se já está logado
+    const user = getCurrentUser();
+    if (user) {
+        console.log('Usuário já logado:', user.name);
+        updateUIForUser(user);
+    }
+    
+    // Configurar listener para PWA
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        console.log('PWA pode ser instalado');
+    });
+    
+    // Listener para quando o PWA for instalado
+    window.addEventListener('appinstalled', () => {
+        console.log('PWA foi instalado com sucesso');
+        showNotification('App instalado com sucesso! Você pode encontrá-lo na sua tela inicial.', 'success', 5000);
+        deferredInstallPrompt = null;
+        
+        // Fechar modal se estiver aberto
+        const modal = document.querySelector('.install-modal');
+        if (modal) {
+            modal.remove();
+        }
+    });
+    
+    // Detectar se está rodando como PWA
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        console.log('Rodando como PWA instalado');
+    }
+    
+    // Inicializar outros sistemas
+    initializePWA();
+    
+    // Mostrar smart banner em dispositivos móveis
+    if (window.innerWidth <= 768) {
+        setTimeout(showSmartBanner, 2000);
+    }
+});
+
+// Fechar modal quando clicar fora
+document.addEventListener('click', function(e) {
+    const modal = document.getElementById('installModal');
+    if (modal && e.target === modal) {
+        closeInstallModal();
+    }
+});
+
+// ================================
 // CARROSSEL REMOVIDO - INTERFACE SIMPLIFICADA
 // ================================

@@ -104,11 +104,11 @@
             <a href="#recursos">Recursos</a>
             <a href="#ranking">Ranking</a>
             <a href="#ia">Agente IA</a>
-            <a href="./app/?tab=profile" class="btn-login-header" onclick="trackAccess('header_profile')" title="Acesse seu perfil e estatísticas">
-                <i class="fas fa-user-circle"></i>
-                <span>Meu Painel</span>
-            </a>
-            <a href="./app/" class="btn-cta-header">Usar App</a>
+            <a href="#sobre">Sobre</a>
+            <button class="btn-login-header" onclick="loginWithGoogle()" title="Faça login com sua conta Google">
+                <i class="fab fa-google"></i>
+                <span>Entrar</span>
+            </button>
         </nav>
         <button class="menu-toggle" id="menuToggle">
             <i class="fas fa-bars"></i>
@@ -179,14 +179,7 @@
                 </div>
                 
                 <div class="trust-indicators">
-                    <div class="trust-item">
-                        <i class="fas fa-shield-check"></i>
-                        <span>Login seguro com Google</span>
-                    </div>
-                    <div class="trust-item">
-                        <i class="fas fa-mobile-alt"></i>
-                        <span>Compatível Android 7.0+ e iOS 12.0+</span>
-                    </div>
+                    <!-- Indicadores de confiança removidos conforme solicitado -->
                 </div>
             </div>
             
@@ -374,10 +367,37 @@
             </ul>
             <div class="ranking-actions">
                 <a href="./app/?tab=ranking" class="btn-ranking">Ver Ranking Completo</a>
-                <a href="./app/?tab=profile" class="btn-login" onclick="trackAccess('ranking_profile')" title="Acesse seu painel de controle pessoal">
-                    <i class="fas fa-user-cog"></i>
-                    <span>Entrar no Meu Painel</span>
-                </a>
+                <button class="btn-login" onclick="loginWithGoogle()" title="Faça login para acessar seu painel">
+                    <i class="fab fa-google"></i>
+                    <span>Entrar com Google</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" id="sobre">
+        <div class="about-container">
+            <div class="about-content">
+                <h2>Sobre o Superação</h2>
+                <p>O Superação é uma plataforma educacional inovadora que combina gamificação e inteligência artificial para transformar o aprendizado em uma experiência envolvente e personalizada.</p>
+                
+                <div class="about-features">
+                    <div class="about-feature">
+                        <i class="fas fa-graduation-cap"></i>
+                        <h3>Educação Personalizada</h3>
+                        <p>Conteúdo adaptado ao seu ritmo e estilo de aprendizagem</p>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-gamepad"></i>
+                        <h3>Gamificação</h3>
+                        <p>Torne o aprendizado divertido com pontos, conquistas e rankings</p>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-robot"></i>
+                        <h3>IA Avançada</h3>
+                        <p>Assistente inteligente que monitora seu progresso e oferece dicas</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

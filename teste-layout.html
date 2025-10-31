@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Layout - Superação</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Teste de visualização de espaçamentos */
+        .debug-spacing {
+            border: 1px dashed #red;
+            background: rgba(255, 0, 0, 0.1);
+        }
+        
+        .spacing-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div class="spacing-info">
+        <strong>Otimizações Aplicadas:</strong><br>
+        ✅ Seções: 60px → 40px<br>
+        ✅ Hero: 100px → 80px<br>
+        ✅ Cards: 30px → 25px<br>
+        ✅ Fontes: -0.3rem<br>
+        ✅ Mobile: 35px padding
+    </div>
+
+    <div class="hero-section">
+        <div class="container">
+            <h1>Superação</h1>
+            <p>Transforme desafios em conquistas com nossa plataforma de desenvolvimento pessoal.</p>
+            <div class="hero-buttons">
+                <button class="btn btn-primary">Começar Agora</button>
+                <button class="btn btn-secondary">Ver Recursos</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="features-section">
+        <div class="container">
+            <h2>Nossos Recursos</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Sistema de Conquistas</h3>
+                    <p>Acompanhe seu progresso com nosso sistema de conquistas personalizado.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Relatórios Detalhados</h3>
+                    <p>Visualize seu crescimento através de relatórios completos e intuitivos.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-users"></i>
+                    <h3>Comunidade Ativa</h3>
+                    <p>Conecte-se com pessoas que compartilham os mesmos objetivos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-section">
+        <div class="container">
+            <h2>Depoimentos</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p>"Uma plataforma incrível que mudou minha vida!"</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👤</div>
+                        <div>
+                            <strong>Maria Silva</strong>
+                            <p>Estudante</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Recomendo para todos que buscam crescimento pessoal."</p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👤</div>
+                        <div>
+                            <strong>João Santos</strong>
+                            <p>Profissional</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Script para mostrar informações de espaçamento
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            sections.forEach((section, index) => {
+                const computedStyle = window.getComputedStyle(section);
+                console.log(`Seção ${index + 1} - Padding: ${computedStyle.padding}`);
+            });
+        });
+    </script>
+</body>
+</html>
