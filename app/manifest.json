@@ -82,7 +82,7 @@
     },
     "protocol_handlers": [
         {
-            "protocol": "superacao",
+            "protocol": "web+superacao",
             "url": "/app/?action=%s"
         }
     ],

@@ -934,7 +934,7 @@ class SuperacaoApp {
             // Save to storage
             if (this.storage) {
                 this.storage.saveSettings(settings);
-                this.storage.saveUserData(this.currentUser);
+                this.storage.saveUser(this.currentUser);
             } else {
                 localStorage.setItem('superacao-settings', JSON.stringify(settings));
                 localStorage.setItem('superacao-user', JSON.stringify(this.currentUser));
