@@ -371,16 +371,6 @@ global.localStorage = {
     }
 };
 
-// Mock Geolocation API
-global.navigator = {
-    geolocation: {
-        getCurrentPosition: jest.fn(),
-        watchPosition: jest.fn(() => 1),
-        clearWatch: jest.fn()
-    },
-    onLine: true
-};
-
 // Mock Notification API
 global.Notification = {
     permission: 'granted',
@@ -417,21 +407,6 @@ describe('App Core Functionality', () => {
         
         expect(saved.name).toBe('Test User');
         expect(saved.email).toBe('test@example.com');
-    });
-    
-    test('should handle GPS permission states', () => {
-        // Mock successful GPS access
-        navigator.geolocation.getCurrentPosition.mockImplementation(
-            (success) => success({
-                coords: {
-                    latitude: -23.5505,
-                    longitude: -46.6333,
-                    accuracy: 10
-                }
-            })
-        );
-        
-        expect(navigator.geolocation.getCurrentPosition).toBeDefined();
     });
 });
 ```
@@ -506,7 +481,6 @@ jobs:
 - [ ] Testes E2E passando
 - [ ] Performance verificada
 - [ ] PWA funcionando offline
-- [ ] GPS testado em dispositivo real
 - [ ] Notificações funcionando
 - [ ] Banco de dados configurado
 

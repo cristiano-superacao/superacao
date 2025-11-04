@@ -147,7 +147,7 @@ class StorageManager {
     }
 
     // Specialized data operations
-    saveUser(userData) {
+    saveUserData(userData) {
         const currentUser = this.get(this.storageKeys.USER) || {};
         const updatedUser = { ...currentUser, ...userData, lastActive: new Date().toISOString() };
         return this.set(this.storageKeys.USER, updatedUser);

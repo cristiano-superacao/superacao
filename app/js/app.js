@@ -81,6 +81,7 @@ class SuperacaoApp {
         this.currentTab = 'tasks';
         this.userType = null;
         this.currentGroup = null;
+        this.rankingManager = null;
         this.currentUser = {
             name: 'Usuário',
             points: 0,
@@ -180,6 +181,26 @@ class SuperacaoApp {
         
         // Update greeting every hour
         setInterval(() => this.updateGreeting(), 3600000);
+    }
+
+    loadRanking() {
+        if (!this.rankingManager) {
+            this.rankingManager = new RankingManager(this);
+        } else {
+            this.rankingManager.loadRanking();
+        }
+    }
+
+    filterRanking(filter) {
+        if (this.rankingManager) {
+            this.rankingManager.filterRanking(filter);
+        }
+    }
+
+    addPointsToRanking(points) {
+        if (this.rankingManager) {
+            this.rankingManager.addPointsToUser(points);
+        }
     }
 
     showGroupInfo() {
@@ -722,6 +743,22 @@ class SuperacaoApp {
         return texts[status] || 'Agendada';
     }
 
+    getCategoryIcon(category) {
+        const icons = {
+            'exercise': 'fas fa-dumbbell',
+            'study': 'fas fa-book-open',
+            'work': 'fas fa-briefcase',
+            'meditation': 'fas fa-brain',
+            'reading': 'fas fa-book',
+            'other': 'fas fa-star'
+        };
+        return icons[category] || 'fas fa-star';
+    }
+
+    getAchievements() {
+        return this.currentUser.achievements || [];
+    }
+
     generateId() {
         return Date.now() + Math.random().toString(36).substr(2, 9);
     }
@@ -934,7 +971,7 @@ class SuperacaoApp {
             // Save to storage
             if (this.storage) {
                 this.storage.saveSettings(settings);
-                this.storage.saveUserData(this.currentUser);
+                this.storage.saveUser(this.currentUser);
             } else {
                 localStorage.setItem('superacao-settings', JSON.stringify(settings));
                 localStorage.setItem('superacao-user', JSON.stringify(this.currentUser));

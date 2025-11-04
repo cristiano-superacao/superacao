@@ -449,7 +449,6 @@ function sendMessageToStudent(studentId) {
     // In a real implementation, this would open a message composer
     alert('Enviar mensagem para aluno - Funcionalidade em desenvolvimento');
 }
-}
 
 // Extend main app with ranking functionality
 SuperacaoApp.prototype.loadRanking = function() {

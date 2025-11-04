@@ -36,30 +36,7 @@
 - ✅ Cookies permitidos para o site?
 - ✅ Extensões do navegador não bloqueando?
 
-### 2. 📍 GPS não funciona
-**Sintomas**: "Localização não disponível", precisão baixa, ou não detecta movimento
-
-**Soluções**:
-```javascript
-// 1. Verificar permissões
-if (navigator.permissions) {
-    navigator.permissions.query({name: 'geolocation'})
-    .then(result => console.log('GPS:', result.state));
-}
-
-// 2. Testar localização manual
-navigator.geolocation.getCurrentPosition(
-    pos => console.log('✅ GPS OK:', pos.coords),
-    err => console.error('❌ GPS Error:', err.message)
-);
-```
-
-**Configurações por dispositivo**:
-- **Android**: Configurações → Local → Ativar "Precisão alta"
-- **iPhone**: Ajustes → Privacidade → Serviços de localização → Safari → "Ao usar app"
-- **Desktop**: Chrome → ⋮ → Configurações → Privacidade → Configurações de site → Localização
-
-### 3. 🔔 Notificações não aparecem
+### 2.  Notificações não aparecem
 **Sintomas**: Não recebe lembretes de tarefas ou conquistas
 
 **Diagnóstico**:
@@ -148,7 +125,6 @@ A:
 A: Sim! O Service Worker cacheia os arquivos principais. Funcionalidades disponíveis offline:
 - ✅ Visualizar tarefas existentes
 - ✅ Criar novas tarefas
-- ✅ Usar GPS tracker
 - ✅ Ver ranking local
 - ❌ Sincronizar dados (necessita internet)
 
@@ -158,36 +134,13 @@ A: Atualmente os dados ficam no dispositivo local. Para usar em múltiplos dispo
 2. Importe no outro dispositivo
 3. *Próxima versão terá sincronização automática*
 
-### 🏃‍♂️ GPS & Exercícios
-
-**Q: O GPS consome muita bateria?**
-A: O app é otimizado para eficiência:
-- 🔋 Usa GPS apenas durante atividades
-- 🔋 Desliga automaticamente ao pausar
-- 🔋 Configuração de precisão balanceada
-- 💡 **Dica**: Usar modo economia de energia do celular durante exercícios longos
-
-**Q: Como melhorar a precisão do GPS?**
-A:
-1. **Usar ao ar livre** (sinal melhor que em ambientes fechados)
-2. **Aguardar alguns segundos** antes de iniciar (GPS precisa "esquentar")
-3. **Verificar se há atualizações** do sistema operacional
-4. **Limpar cache** do navegador ocasionalmente
-
-**Q: GPS funciona em qualquer lugar?**
-A: 
-- ✅ **Funciona**: Áreas abertas, parques, ruas, trilhas
-- ⚠️ **Limitado**: Shopping centers, prédios, túneis
-- ❌ **Não funciona**: Subsolo, áreas sem cobertura celular
-
 ### 📊 Pontuação & Ranking
 
 **Q: Como funciona o sistema de pontos?**
 A: 
 ```
 📋 Tarefa completada: 10-25 pontos (varia por categoria)
-🏃‍♂️ Exercício GPS: 10 pontos por km percorrido
-🎯 Meta diária alcançada: 50 pontos bonus
+ Meta diária alcançada: 50 pontos bonus
 🏆 Sequência de dias: +5 pontos por dia consecutivo
 ```
 
@@ -197,9 +150,8 @@ A: Não! O sistema é baseado apenas em conquistas positivas. Pontos nunca são 
 **Q: Como subir no ranking?**
 A: 
 1. **Complete tarefas diariamente** (consistência é chave)
-2. **Use o GPS tracker** (exercícios dão muitos pontos)
-3. **Mantenha sequências** (bonus por dias consecutivos)
-4. **Varie as atividades** (diferentes categorias)
+2. **Mantenha sequências** (bonus por dias consecutivos)
+3. **Varie as atividades** (diferentes categorias)
 
 ### 🔐 Privacidade & Segurança
 
@@ -215,7 +167,6 @@ A: **Nunca!** Nem coletamos dados vendáveis:
 - ❌ Não rastreamos localização permanentemente
 - ❌ Não acessamos contatos ou fotos
 - ❌ Não fazemos perfil publicitário
-- ✅ GPS usado apenas durante exercícios escolhidos por você
 
 ---
 
@@ -233,7 +184,6 @@ location.reload();
 console.log('=== SUPERAÇÃO DEBUG ===');
 console.log('User:', JSON.parse(localStorage.getItem('superacao-user') || '{}'));
 console.log('Tasks:', JSON.parse(localStorage.getItem('superacao-tasks') || '[]'));
-console.log('GPS Support:', 'geolocation' in navigator);
 console.log('Notifications:', Notification.permission);
 console.log('ServiceWorker:', 'serviceWorker' in navigator);
 ```
@@ -306,21 +256,6 @@ function importData(jsonString) {
 ### 🤖 Android
 
 **Chrome não permite instalação**:
-```javascript
-// Verificar se PWA é instalável
-window.addEventListener('beforeinstallprompt', (e) => {
-    console.log('✅ App instalável detectado');
-    e.preventDefault();
-    window.installPrompt = e;
-});
-```
-
-**GPS impreciso**:
-1. Ativar "Localização de alta precisão"
-2. Permitir "Melhorar precisão da localização"
-3. Verificar se Google Play Services está atualizado
-
-**Notificações não funcionam**:
 1. Configurações → Apps → Chrome → Notificações → Ativar
 2. Verificar se "Não perturbe" não está ativo
 3. Testar com outros apps se notificações funcionam
@@ -331,11 +266,6 @@ window.addEventListener('beforeinstallprompt', (e) => {
 - Certificar que está usando Safari (não Chrome)
 - Versão iOS 11.3+ necessária
 - Compartilhar → "Adicionar à Tela de Início"
-
-**GPS não funciona no Safari**:
-1. Ajustes → Privacidade → Serviços de Localização → Safari → "Ao Usar o App"
-2. Aguardar alguns segundos após abrir o app
-3. Aceitar permissão quando solicitado
 
 **Notificações limitadas**:
 - iOS não suporta notificações PWA completamente
@@ -363,7 +293,6 @@ navigator.serviceWorker.getRegistrations().then(registrations => {
 ### Internet Lenta
 - App funciona offline após primeira visita
 - Dados são sincronizados quando conexão melhora
-- GPS funciona sem internet (usa dados locais)
 
 ### Bloqueio de Firewall/Proxy
 Se o app não carrega em rede corporativa:
@@ -393,7 +322,6 @@ APIs: Geolocation (local), Web Notifications (local)
 | Problema | Sintoma | Solução |
 |----------|---------|---------|
 | Tarefas não salvam | Tarefa criada desaparece | Verificar localStorage, não usar modo privado |
-| GPS travado em "Procurando..." | Nunca encontra localização | Sair ao ar livre, aguardar 30s, verificar permissões |
 | Pontos não calculam | Atividades feitas mas sem pontos | Verificar se tarefa foi marcada como completa |
 
 ### Categoria: Performance  
@@ -419,7 +347,6 @@ const diagnostics = {
     onLine: navigator.onLine,
     
     // Capacidades do dispositivo
-    geolocation: 'geolocation' in navigator,
     notifications: 'Notification' in window,
     serviceWorker: 'serviceWorker' in navigator,
     localStorage: (() => {
